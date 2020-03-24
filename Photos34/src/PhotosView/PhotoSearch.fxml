@@ -71,7 +71,7 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <TextField fx:id="username1112" layoutX="122.0" layoutY="318.0" prefHeight="27.0" prefWidth="97.0" text="Tag 2" />
+      <TextField fx:id="Tag2" layoutX="122.0" layoutY="318.0" prefHeight="27.0" prefWidth="97.0" text="Tag 2" />
       <RadioButton fx:id="And" layoutX="56.0" layoutY="290.0" mnemonicParsing="false" />
       <Label fx:id="Tag2" layoutX="14.0" layoutY="319.0" prefHeight="24.0" prefWidth="163.0" text="Tag/Value 2:">
          <font>
