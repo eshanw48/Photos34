@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="368.0" prefWidth="549.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PhotosView.AdminController">
    <children>
-      <Button fx:id="Delete" layoutX="263.0" layoutY="234.0" mnemonicParsing="false" onAction="#enterButtonClicked" prefHeight="41.0" prefWidth="145.0" text="Delete Selected User">
+      <Button fx:id="delete" layoutX="263.0" layoutY="234.0" mnemonicParsing="false" onAction="#deleteButton" prefHeight="41.0" prefWidth="145.0" text="Delete Selected User">
          <font>
             <Font size="14.0" />
          </font>
@@ -25,22 +25,22 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="Add" layoutX="415.0" layoutY="234.0" mnemonicParsing="false" onAction="#enterButtonClicked" prefHeight="41.0" prefWidth="116.0" text="Add New User">
+      <Button fx:id="add" layoutX="415.0" layoutY="234.0" mnemonicParsing="false" onAction="#addButton" prefHeight="41.0" prefWidth="116.0" text="Add New User">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="Exit" layoutX="464.0" layoutY="7.0" mnemonicParsing="false" onAction="#enterButtonClicked" prefHeight="28.0" prefWidth="107.0" text="Exit Photos">
+      <Button fx:id="exit" layoutX="464.0" layoutY="7.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="28.0" prefWidth="107.0" text="Exit Photos">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="Logout" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#enterButtonClicked" prefHeight="28.0" prefWidth="107.0" text="Logout">
+      <Button fx:id="logout" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#logoutButton" prefHeight="28.0" prefWidth="107.0" text="Logout">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <ListView layoutX="28.0" layoutY="146.0" prefHeight="200.0" prefWidth="200.0" />
+      <ListView fx:id="users" layoutX="28.0" layoutY="146.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="39.0" layoutY="81.0" prefHeight="80.0" prefWidth="314.0" text="Users:">
          <font>
             <Font size="19.0" />
