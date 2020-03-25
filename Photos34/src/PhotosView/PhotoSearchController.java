@@ -11,16 +11,16 @@ import javafx.scene.control.TextField;
 public class PhotoSearchController {
 
     @FXML
-    private Button Exit;
+    private Button exit;
 
     @FXML
-    private Button Logout;
+    private Button logout;
 
     @FXML
-    private Button BackAlbums;
+    private Button backAlbums;
 
     @FXML
-    private RadioButton DateRange;
+    private RadioButton dateRange;
 
     @FXML
     private TextField StartDate;
@@ -29,7 +29,7 @@ public class PhotoSearchController {
     private TextField EndDate;
 
     @FXML
-    private RadioButton TagAndValue;
+    private RadioButton tagAndValue;
 
     @FXML
     private TextField Tag1;
@@ -38,32 +38,73 @@ public class PhotoSearchController {
     private TextField Value1;
 
     @FXML
-    private TextField Tag2;
+    private Label Tag2;
 
     @FXML
-    private RadioButton And;
+    private RadioButton and;
 
     @FXML
     private TextField Value2;
 
     @FXML
-    private Button Search;
+    private Button search;
 
     @FXML
-    private ListView<?> SearchResults;
+    private ListView<?> searchResults;
 
     @FXML
     private TextField AlbumName;
 
     @FXML
-    private Button CreateAlbum;
+    private Button createAlbum;
 
     @FXML
-    private RadioButton Or;
+    private RadioButton or;
 
     @FXML
-    void enterButtonClicked(ActionEvent event) {
+    void andButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void backAlbumsButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void createAlbumButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void dateRangeButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void exitButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void logoutButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void orButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void searchButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void tagAndValueButton(ActionEvent event) {
 
     }
 
 }
+
