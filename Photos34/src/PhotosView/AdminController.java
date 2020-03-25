@@ -3,27 +3,46 @@ package PhotosView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 public class AdminController {
 
     @FXML
-    private Button Delete;
+    private Button delete;
 
     @FXML
     private TextField username;
 
     @FXML
-    private Button Add;
+    private Button add;
 
     @FXML
-    private Button Exit;
+    private Button exit;
 
     @FXML
-    private Button Logout;
+    private Button logout;
 
     @FXML
-    void enterButtonClicked(ActionEvent event) {
+    private ListView<?> users;
+
+    @FXML
+    void addButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void deleteButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void exitButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void logoutButton(ActionEvent event) {
 
     }
 
