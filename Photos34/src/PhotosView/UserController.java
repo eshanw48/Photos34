@@ -9,34 +9,64 @@ import javafx.scene.control.TextField;
 public class UserController {
 
     @FXML
-    private Button Create;
+    private Button create;
 
     @FXML
     private TextField AlbumName;
 
     @FXML
-    private Button Exit;
+    private Button exit;
 
     @FXML
-    private Button Logout;
+    private Button logout;
 
     @FXML
-    private Button Rename;
+    private Button rename;
 
     @FXML
-    private Button Delete;
+    private Button delete;
 
     @FXML
-    private Button Search;
+    private Button search;
 
     @FXML
-    private TableView<?> DisplayAlbums;
+    private TableView<?> displayAlbums;
 
     @FXML
-    private Button Open;
+    private Button open;
 
     @FXML
-    void enterButtonClicked(ActionEvent event) {
+    void createButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void deleteButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void exitButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void logoutButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void openButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void renameButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void searchButton(ActionEvent event) {
 
     }
 
