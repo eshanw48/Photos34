@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="283.0" prefWidth="407.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PhotosView.LoginController">
    <children>
-      <Button fx:id="Submit" layoutX="106.0" layoutY="139.0" mnemonicParsing="false" onAction="#enterButtonClicked" text="Submit">
+      <Button fx:id="submit" layoutX="106.0" layoutY="139.0" mnemonicParsing="false" onAction="#submitButton" text="Submit">
          <font>
             <Font size="14.0" />
          </font>
@@ -24,12 +24,12 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="Clear" layoutX="205.0" layoutY="139.0" mnemonicParsing="false" onAction="#enterButtonClicked" prefHeight="28.0" prefWidth="62.0" text="Clear">
+      <Button fx:id="clear" layoutX="205.0" layoutY="139.0" mnemonicParsing="false" onAction="#clearButton" prefHeight="28.0" prefWidth="62.0" text="Clear">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="Exit" layoutX="288.0" layoutY="216.0" mnemonicParsing="false" onAction="#enterButtonClicked" prefHeight="28.0" prefWidth="107.0" text="Exit Photos">
+      <Button fx:id="exit" layoutX="288.0" layoutY="216.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="28.0" prefWidth="107.0" text="Exit Photos">
          <font>
             <Font size="14.0" />
          </font>
