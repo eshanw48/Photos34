@@ -8,19 +8,29 @@ import javafx.scene.control.TextField;
 public class LoginController {
 
     @FXML
-    private Button Submit;
+    private Button submit;
 
     @FXML
     private TextField username;
 
     @FXML
-    private Button Clear;
+    private Button clear;
 
     @FXML
-    private Button Exit;
+    private Button exit;
 
     @FXML
-    void enterButtonClicked(ActionEvent event) {
+    void clearButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void exitButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void submitButton(ActionEvent event) {
 
     }
 
