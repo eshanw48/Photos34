@@ -1,8 +1,19 @@
 package app;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
 
 
 public class Persistance {
@@ -46,5 +57,43 @@ public class Persistance {
 		return users.iterator();
 	}
 	
+	/**
+	 * @throws IOException throws if file does not exist
+	 */
+	public static void writeUser() throws IOException {
+		
+		String fileName = "users.dat";
+				
+		ObjectOutputStream os = null;
+
+		try {
+			
+			 os = new ObjectOutputStream(new FileOutputStream(fileName));
+			 
+			 os.writeObject(users);
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+		}
+
+		
+		os.close();
+		
+	}
 	
+	/**
+	 * @throws IOException throws if file does not exist
+	 * @throws ParseException throws if date cannot be parsed
+	 */
+	public static void readUser() throws IOException, ParseException {
+		
+		String fileName = "users.dat";
+		
+		File file = new File("users.dat");
+		
+		String[] names = {"TEST"};
+		
+		String[] fileLoc = {"src/stock/TEST.jpg"};
+}
 }
