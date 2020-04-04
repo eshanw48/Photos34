@@ -13,10 +13,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.net.URL;
 
 
-
+/**
+ * Class to help with persistence between sessions and between users/admin.
+ * @author Eshan Wadhwa and Vishal Patel
+ *
+ */
 public class Persistance {
+	
+	
 	
 	/**
 	 * Holds all the user objects in the application
@@ -57,9 +64,7 @@ public class Persistance {
 		return users.iterator();
 	}
 	
-	/**
-	 * @throws IOException throws if file does not exist
-	 */
+	//deprecated
 	public static void writeUser() throws IOException {
 		
 		String fileName = "users.dat";
@@ -83,9 +88,86 @@ public class Persistance {
 	}
 	
 	/**
-	 * @throws IOException throws if file does not exist
-	 * @throws ParseException throws if date cannot be parsed
+	 * Writes user data to data file. If data file doesn't exist, then it is created
+	 * @throws IOException throws if error with writing
 	 */
+	public static void writeUsers() throws IOException {
+		
+		
+		
+		File data=new File("src/data/users.dat");
+		
+		
+				
+		ObjectOutputStream os = null;
+
+		try {
+			
+			//creates file if it doesn't exist
+			if (!data.exists()) {
+				data.createNewFile();
+			} else {
+				//then we have to clear the data before writing
+				data.delete();
+				data.createNewFile();
+			}
+			 
+			 os = new ObjectOutputStream(new FileOutputStream(data));
+			 
+			 for (User user:users) {
+				 os.writeObject(user);
+			 }
+			 
+			 os.close();
+			
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+		}
+
+		
+		
+	}
+	
+	/**
+	 * @throws IOException throws if file does not exist
+	 * @throws ParseException throws if data cannot be parsed
+	 */
+	public static void readUsers() throws IOException, ParseException {
+		
+		
+		File data = new File("src/data/users.dat");
+		
+		ObjectInputStream os= null;
+		
+		try {
+			//creates dat file if it doesnt exist
+			if (!data.exists()) {
+				data.createNewFile();
+			} else {
+				os= new ObjectInputStream(new FileInputStream(data));
+				ArrayList<User> read = new ArrayList<User>();
+				
+				//reading the data
+				while(true) {
+					Object usr = os.readObject();
+					if (usr==null) {
+						break;
+					} else {
+						read.add((User)usr);
+					}
+				}
+				users=read;
+				os.close();
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+}
+	
+	//deprecated
 	public static void readUser() throws IOException, ParseException {
 		
 		String fileName = "users.dat";
