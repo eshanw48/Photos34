@@ -42,7 +42,9 @@ public class LoginController {
     }
 
     @FXML
-    void exitButton(ActionEvent event) {
+    void exitButton(ActionEvent event) throws IOException {
+    	
+    	Persistance.writeUser();
     	
     	Platform.exit();
     	System.exit(0);
@@ -144,5 +146,6 @@ public static int getUserIndex() {
 		return userIndex;
 	}
 }
+
 
 
