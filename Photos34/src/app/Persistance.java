@@ -204,9 +204,10 @@ public class Persistance {
 			
 			for(int i = 0; i < fileLoc.length; i++) {
 		
-				Photo image = new Photo(names[i],fileLoc[i]);
+				Photo image = new Photo(names[i],new File(fileLoc[i]));
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+				
 				
 				String s = sdf.format(file.lastModified());
 				
