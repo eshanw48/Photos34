@@ -1,9 +1,18 @@
 package PhotosView;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+
 
 import app.Persistance;
 import app.User;
@@ -45,6 +54,7 @@ public class AdminController implements Initializable {
     private ListView<User> users;
     
     private ObservableList<User> usersList;
+    
 
     @FXML
     void addButton(ActionEvent event) {
@@ -146,7 +156,9 @@ public class AdminController implements Initializable {
     }
 
     @FXML
-    void exitButton(ActionEvent event) {
+    void exitButton(ActionEvent event) throws IOException {
+    	
+    	Persistance.writeUser();
     	
     	Platform.exit();
     	System.exit(0);
@@ -174,27 +186,63 @@ public class AdminController implements Initializable {
 
     }
 
-    @Override
-	public void initialize(URL location, ResourceBundle resources) {  // Runs this function every time scene starts
-		
-    	usersList = FXCollections.observableArrayList(); 
-		
-		Iterator<User> userIter = Persistance.userIterator();  // iterator to go through user array
-		
-		while(userIter.hasNext()) {  // loads all the users into the listview 
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		   		
+		    	usersList = FXCollections.observableArrayList(); 
 			
-			usersList.add(userIter.next());
-		}
-		
-		users.setItems(usersList);  // sets Observable list to the listview
-		
-		if(!usersList.isEmpty()) {  // if list is not empty; select first item
-			
-			users.getSelectionModel().select(0);
-		}
-		
+				Iterator<User> userIter = Persistance.userIterator();  // iterator to go through user array
+				
+				while(userIter.hasNext()) {  // loads all the users into the listview 
+					
+					usersList.add(userIter.next());
+				}
+				
+				users.setItems(usersList);  // sets Observable list to the listview
+				
+				if(!usersList.isEmpty()) {  // if list is not empty; select first item
+					
+					users.getSelectionModel().select(0);
+				}
+		   		
+		   	}
+	/*
+	private ArrayList<User> readFromFile(String filePathName)
+	{
+		   ArrayList <User> user = new ArrayList<User>();
+		   BufferedReader br;
+		   Path filePath = Paths.get(filePathName);
+		   try {
+	
+				if (!new File(filePathName).exists())
+				{
+				   return user;
+				}
+			   br = Files.newBufferedReader(filePath);
+			   String line = br.readLine();
+				
+			   while (line != null) { 
+		              
+				   String name = line;
+		  
+		               
+				   User temp = new User(name);
+				   user.add(temp);
+		               
+				   line = br.readLine(); 
+			   }
+			   
+			   br.close();
+			  
+				
+		   } catch (IOException e) {
+			   e.printStackTrace();
+		   }
+		return user;
+		      
+		  
 	}
-    
-  
+		*/
+	}
 
-}
+   
