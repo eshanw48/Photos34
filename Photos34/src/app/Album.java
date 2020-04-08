@@ -11,26 +11,54 @@ import java.util.List;
 import PhotosView.LoginController;
 
 
-
+/**
+ * Class to represent our Albums for each user, where every album holds a collection of Photos.
+ * @author Eshan Wadhwa and Vishal Patel
+ *
+ */
 public class Album implements Serializable{
 	
+	/**
+	 * List of all the photos held in our album.
+	 */
 	private List<Photo> photos = new ArrayList<Photo>();  // holds all the photos within the album
 	
+	/**
+	 * Name of the album.
+	 */
 	private String albumName;
 	
-	private Date beginDate;
+	/**
+	 * Date-Time of the earliest photo in our album.
+	 */
+	private LocalDateTime beginDate;
 
-	private Date endDate;
+	/**
+	 * Date-Time of the most recent photo in our album.
+	 */
+	private LocalDateTime endDate;
 	
-	private String dateRange; 
-	
+	/**
+	 * Number of photos in our album
+	 */
 	private int numOfPhotos;
 	
+	
+	/* We do not need date range, because when the user inputs a date range in the search, we will have to compare anyway
+	private String dateRange; 
+	*/
+	
+
+	
 	public Album(String albumName) {
+		this.photos=new ArrayList<Photo>();
 		
 		this.albumName = albumName;
 		
-		numOfPhotos = 0;
+		this.numOfPhotos = 0;
+		this.beginDate=null;
+		this.endDate=null;
+		
 	}
 	
 	public void setAlbumName(String albumName) {
@@ -43,11 +71,12 @@ public class Album implements Serializable{
 		return albumName;
 	}
 	
-	public String getNumOfPhotos() {
+	public int getNumOfPhotos() {
 		
-		return Integer.toString(numOfPhotos);
+		return numOfPhotos;
 	}
 	
+	// is there a reason for this method? its not apparent to me (users can only add or delete one photo at a time right?)
 	public void opNumOfPhotos(int num, char op)
 	{
 		if (op == '+')
@@ -59,26 +88,55 @@ public class Album implements Serializable{
 		}
 	}
 	
-	public void addPhoto(Photo p)
+	
+	/**
+	 * Method to add a photo to our album.
+	 * @param p This is the photo to add to our album.
+	 * @return Returns false if photo already exists in our album and insertion failed. Returns true otherwise.
+	 */
+	public boolean addPhoto(Photo p)
 	{
 		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		Iterator<Photo> photoIter=this.photoIterator();
+		/* no need to add photo to a user. an album contains photos, and users contain albums
 		Iterator<Photo> photoIter = currentUser.userPhotos.iterator();
+		*/
+		
 		Photo photoToAdd = null;
 		
 		while (photoIter.hasNext())
 		{
 			photoToAdd = photoIter.next();
-			if(p.isFileLocationEqual(photoToAdd))
+			if(p.equals(photoToAdd))
 			{
-				p.setCaption(photoToAdd.caption);
+				//then we found a repeat photo in our album, we should not allow this
+				return false;
+				
+				
+				
+				//p.setCaption(photoToAdd.caption);
 				//p.setTags("name", photoToAdd.getTags("name"));
 				//p.setTags("location", photoToAdd.getTags("location"));
-				break;
-			} else {
+				
+			} /*else {
 				photoToAdd = null;
-			}
+			} */
 		}
 		
+		this.photos.add(p);
+		//we should check here if the date is greater than earliest date
+		if (this.photos.size()==1) {
+			//then we added the only photo
+			this.beginDate=p.getPhotoDate();
+			this.endDate=p.getPhotoDate();
+		} else {
+			//then there is more than one photo here, so we should compare dates
+			this.updateDates();
+		}
+		numOfPhotos++;
+		return true;
+		
+		/*
 		if (photoToAdd != null)
 		{
 			photos.add(photoToAdd);
@@ -86,18 +144,41 @@ public class Album implements Serializable{
 			currentUser.userPhotos.add(p);
 			photos.add(p);
 		}
+		*/
 		
-		numOfPhotos++;
+		
 	}
 	
-	public void deletePhoto(Photo p)
+	/**
+	 * Method for deleting a specific photo from our album.
+	 * @param p Photo to delete
+	 * @return Returns true if the photo was found and deleted successfully. Returns false otherwise.
+	 */
+	public boolean deletePhoto(Photo p)
 	{
+		Iterator<Photo> photoiter = this.photoIterator();
+		
+		while (photoiter.hasNext()) {
+			if (photoiter.next().equals(p)) {
+				photoiter.remove();
+				this.numOfPhotos--;
+				//need to update dates of photos here, in case the photo we deleted had the earliest or latest date
+				this.updateDates();
+				return true;
+			}
+		}
+		//picture not found
+		return false;
+		
+		
+		/* We shouldnt have photos for the user AND for the album. We can just access photos from the album directly
+		 	Also, it could be a pain having to synchronize the same photo with different attributes in different albums, since copies of the same photo could be in multiple albums.
 		User currentUser = Persistance.getUser(LoginController.getUserIndex());
 		int lastCopy = 0;
 		
 		photos.remove(p);
 		
-		/*remove photo from user*/
+		
 		Iterator<Album> userAlbums = currentUser.albumIterator();
 		while(userAlbums.hasNext())
 		{
@@ -130,28 +211,112 @@ public class Album implements Serializable{
 		} else {
 			numOfPhotos--;
 		}
+		*/
 	}
 	
-	public void setBeginDate(Date d) {
+	/**
+	 * Method to update the start and end dates of our album. (Goes through all photos and sets the earliest and newest dates)
+	 */
+	public void updateDates() {
+		Iterator<Photo> photoiter = this.photoIterator();
+		LocalDateTime beg = null;
+		LocalDateTime end = null;
 		
-		beginDate = d;
+		Photo toExamine = null;
+		
+		while (photoiter.hasNext()) {
+			toExamine=photoiter.next();
+			if (beg==null) {
+				//then both beg and end must be null
+				beg=toExamine.getPhotoDate();
+				end=toExamine.getPhotoDate();
+			} else {
+				//then we need to compare
+				if (beg.compareTo(toExamine.getPhotoDate())>0) {
+					//then our beginning date is newer than the date of the photo we found
+					beg=toExamine.getPhotoDate();
+				}
+				if (end.compareTo(toExamine.getPhotoDate())<0) {
+					//then our ending date is older then the date of the photo we found
+					end=toExamine.getPhotoDate();
+				}
+			}
+		}
+		//now we set the values to our album
+		this.beginDate=beg;
+		this.endDate=end;
 	}
 	
-	public Date getBeginDate() {
-		
+	/**
+	 * Method to tell whether a specific photo is in this album or not.
+	 * @param p Photo to check for .
+	 * @return Returns true if the photo is in this album and returns false otherwise.
+	 */
+	public boolean hasPhoto(Photo p) {
+		Iterator<Photo> iter = this.photoIterator();
+		while(iter.hasNext()) {
+			if (iter.next().equals(p)) {
+				//then we found a match
+				return true;
+			}
+		}
+		//then no match found
+		return false;
+	}
+	
+	/**
+	 * Method to move a photo from one album to another
+	 * @param one Host album for the photo.
+	 * @param two Destination album for the photo.
+	 * @param p Photo to be moved.
+	 * @return Returns true if the photo was successfully moved. Returns false otherwise.
+	 */
+	public static boolean movePhoto(Album one, Album two, Photo p) {
+		if (!one.hasPhoto(p)) {
+			//then we cant move the photo!
+			return false;
+		}
+		if (two.addPhoto(p)) {
+			//then we should delete it from the host album
+			one.deletePhoto(p);
+			return true;
+		} else {
+			//then the second album already has this image!
+			return false;
+		}
+	}
+	
+	/**
+	 * Method to copy a photo from one album to another
+	 * @param one Source album
+	 * @param two Destination album
+	 * @param p Photo to move
+	 * @return Returns true if the copy was successful. Returns false otherwise.
+	 */
+	public static boolean copyPhoto(Album one, Album two, Photo p) {
+		if (!one.hasPhoto(p)) {
+			//then nothing to copy!
+			return false;
+		}
+		return two.addPhoto(p);
+	}
+	
+	public LocalDateTime getBeginDate() {
 		return beginDate;
 	}
-	
-	public Date getEndDate() {
-		
+
+	public void setBeginDate(LocalDateTime beginDate) {
+		this.beginDate = beginDate;
+	}
+
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
-	
-	public void setEndDate(Date d) {
-		
-		endDate = d;
+
+	public void setEndDate(LocalDateTime endDate) {
+		this.endDate = endDate;
 	}
-	
+
 	public Iterator<Photo> photoIterator() {
 		
 		return photos.iterator();

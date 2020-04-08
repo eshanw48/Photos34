@@ -14,7 +14,9 @@ public class User implements Serializable{
 	
 	private List<Album> albums = new ArrayList<Album>();  // holds all the albums that a User has
 	
+	/* Photos shouldnt exist without an album
 	List<Photo> userPhotos = new ArrayList<Photo>();
+	*/
 	
 	public User(String userName) { // User constructor
 		
@@ -52,12 +54,14 @@ public class User implements Serializable{
 		return albums.iterator();
 	}
 	
+	/*
 	public Iterator<Photo> userPhotosIterator() {
 		
 		return userPhotos.iterator();
 	}
+	*/
 	
-	
+	/*
 	public void updateUserPhotos()
 	{
 		boolean photoExistsInAnAlbum = false;
@@ -113,5 +117,5 @@ public class User implements Serializable{
 			}
 		}
 	
-}
+} */
 }

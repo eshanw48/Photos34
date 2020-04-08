@@ -206,6 +206,7 @@ public class Persistance {
 		
 				Photo image = new Photo(names[i],new File(fileLoc[i]));
 				
+				/*
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 				
 				
@@ -213,8 +214,10 @@ public class Persistance {
 				
 				Date date = sdf.parse(s);
 				
-				image.setPhotoDate(date); 
 				
+				image.setPhotoDate(date); 
+				*/
+				/*
 				stockAlbum.setBeginDate(image.getPhotoDate());
 				stockAlbum.setEndDate(image.getPhotoDate());
 				
@@ -227,6 +230,7 @@ public class Persistance {
 										
 					stockAlbum.setEndDate(image.getPhotoDate());
 				}
+				*/
 				
 				stockAlbum.addPhoto(image);	
 			
