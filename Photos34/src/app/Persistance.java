@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+
 import java.net.URL;
 
 
@@ -68,7 +70,7 @@ public class Persistance {
 	public static void writeUser() throws IOException {
 		
 		String fileName = "users.dat";
-				
+		
 		ObjectOutputStream os = null;
 
 		try {
@@ -87,15 +89,21 @@ public class Persistance {
 		
 	}
 	
+	
+	
 	/**
 	 * Writes user data to data file. If data file doesn't exist, then it is created
 	 * @throws IOException throws if error with writing
 	 */
+	
+	/*
 	public static void writeUsers() throws IOException {
 		
 		
 		
-		File data=new File("src/data/users.dat");
+		//File data=new File("src/data/users.dat");
+		
+		File data=new File("users.dat");
 		
 		
 				
@@ -129,14 +137,20 @@ public class Persistance {
 		
 	}
 	
+	*/
+	
 	/**
 	 * @throws IOException throws if file does not exist
 	 * @throws ParseException throws if data cannot be parsed
 	 */
+	
+	/*
 	public static void readUsers() throws IOException, ParseException {
 		
 		
-		File data = new File("src/data/users.dat");
+		//File data = new File("src/data/users.dat");
+		
+		File data=new File("users.dat");
 		
 		ObjectInputStream os= null;
 		
@@ -167,6 +181,8 @@ public class Persistance {
 		
 }
 	
+	
+	*/
 	//deprecated
 	public static void readUser() throws IOException, ParseException {
 		
@@ -174,8 +190,71 @@ public class Persistance {
 		
 		File file = new File("users.dat");
 		
-		String[] names = {"TEST"};
+		String[] names = {""};
 		
 		String[] fileLoc = {"src/stock/TEST.jpg"};
-}
+		
+		Album stockAlbum = new Album("stock album");
+		
+		if(file.length() == 0) {
+			
+			User stock = new User("stock");
+			
+			users.add(stock);
+			
+			for(int i = 0; i < fileLoc.length; i++) {
+		
+				Photo image = new Photo(names[i],fileLoc[i]);
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+				
+				String s = sdf.format(file.lastModified());
+				
+				Date date = sdf.parse(s);
+				
+				image.setPhotoDate(date); 
+				
+				stockAlbum.setBeginDate(image.getPhotoDate());
+				stockAlbum.setEndDate(image.getPhotoDate());
+				
+				if(image.getPhotoDate().before(stockAlbum.getBeginDate())) {
+					
+					stockAlbum.setBeginDate(image.getPhotoDate());
+				}
+				
+				if(image.getPhotoDate().after(stockAlbum.getEndDate())) {
+										
+					stockAlbum.setEndDate(image.getPhotoDate());
+				}
+				
+				stockAlbum.addPhoto(image);	
+			
+			}
+			
+			//users.add(stock);
+			
+			stock.addAlbum(stockAlbum);
+			
+			//users.add(stock);
+			
+			
+			
+			return;
+		}
+				
+		try {
+			
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
+			 
+	        users = (List<User>) in.readObject(); 	
+	        
+	        in.close();
+	        
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+		
+		
 }
