@@ -7,16 +7,16 @@ import java.util.List;
 
 
 
+
 public class User implements Serializable{
 	
-	String userName;  
+	String userName;  // contains the user's user name
 	
 	private List<Album> albums = new ArrayList<Album>();  // holds all the albums that a User has
 	
-	private List<Photo> userPhotos = new ArrayList<Photo>();
+	List<Photo> userPhotos = new ArrayList<Photo>();
 	
-
-	public User(String userName) { 
+	public User(String userName) { // User constructor
 		
 		this.userName = userName;
 	}
@@ -31,6 +31,7 @@ public class User implements Serializable{
 		this.userName = userName;
 	}
 	
+		
 	public void addAlbum(Album album) {
 		
 		albums.add(album);
@@ -41,9 +42,76 @@ public class User implements Serializable{
 		albums.remove(index);
 	}
 	
+	public Album getAlbum(int index) {
+		
+		return albums.get(index);
+	}
+	
 	public Iterator<Album> albumIterator() {
 		
 		return albums.iterator();
 	}
 	
+	public Iterator<Photo> userPhotosIterator() {
+		
+		return userPhotos.iterator();
+	}
+	
+	
+	public void updateUserPhotos()
+	{
+		boolean photoExistsInAnAlbum = false;
+		
+		Iterator<Album> albumsToCheck = albumIterator();
+		Iterator<Photo> userPhotosIter = userPhotosIterator();
+		
+		if (userPhotosIter.hasNext())
+		{
+			if (albumsToCheck.hasNext())
+			{
+				while(userPhotosIter.hasNext())
+				{
+					photoExistsInAnAlbum = false;
+					Photo userPhotoToCheck = userPhotosIter.next();
+					
+					while (albumsToCheck.hasNext())
+					{
+						Album currentAlbum = albumsToCheck.next();
+						Iterator<Photo> photosToCheck = currentAlbum.photoIterator();
+						
+						while (photosToCheck.hasNext())
+						{
+							Photo currentPhoto = photosToCheck.next();
+							
+							if (currentPhoto.isEqual(userPhotoToCheck))
+							{
+								photoExistsInAnAlbum = true;
+								break;
+							}
+					
+						}
+						
+						if (photoExistsInAnAlbum)
+						{
+							break;
+						}
+					}
+					
+					
+					if (!photoExistsInAnAlbum)
+					{
+						userPhotos.remove(userPhotoToCheck);
+					}
+					
+				}
+			} else {
+				while (userPhotosIter.hasNext())
+				{
+					userPhotosIter.next();
+					userPhotosIter.remove();
+				}
+			}
+		}
+	
+}
 }
