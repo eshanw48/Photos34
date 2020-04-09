@@ -13,6 +13,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+//import for file browser users need to pick their images for albums.
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+
+import java.io.File;
 
 public class PhotoAlbumController {
 
@@ -54,7 +59,32 @@ public class PhotoAlbumController {
 
     @FXML
     void addButton(ActionEvent event) {
-
+    		//we want this to basically open a file browser so the user can select their photo
+    		//we should check for photo specific endings (.jpeg,.png,etc.)?
+    		//we should check for duplicates here too.
+    		//supported types are bmp,gif,jpeg,png
+    	
+    	//creating filter for our fileChooser
+    	FileChooser.ExtensionFilter imageFilter = new ExtensionFilter("image extensions", new String[]{"*.jpeg","*.png","*.gif","*.bmp"});
+    	
+    	//creating the actual fileChooser
+    	FileChooser imageSelector = new FileChooser();
+    	
+    	//setting window title for file browser popup
+    	imageSelector.setTitle("Please select an image.");
+    	//applying filter
+    	imageSelector.setSelectedExtensionFilter(imageFilter);
+    	
+    	//showing the file browser to select a file
+    	File selectedFile = imageSelector.showOpenDialog(add.getScene().getWindow());
+    	
+    	if (selectedFile==null || !selectedFile.isFile()) {
+    		//error case
+    	} else {
+    		//then we should create a photo object and see if its possible to add into the current album
+    		
+    	}
+    	
     }
 
     @FXML

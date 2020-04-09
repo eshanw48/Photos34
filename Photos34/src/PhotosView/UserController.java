@@ -15,6 +15,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class UserController {
+	
+	//we have to display our albums in the specific format with album name, early date, end date, num photos
+	//we can use add album method in user etc when add
 
     @FXML
     private Button create;
