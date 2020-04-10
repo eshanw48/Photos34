@@ -96,7 +96,7 @@ public class Album implements Serializable{
 	 */
 	public boolean addPhoto(Photo p)
 	{
-		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		//User currentUser = Persistance.getUser(LoginController.getUserIndex());
 		Iterator<Photo> photoIter=this.photoIterator();
 		/* no need to add photo to a user. an album contains photos, and users contain albums
 		Iterator<Photo> photoIter = currentUser.userPhotos.iterator();

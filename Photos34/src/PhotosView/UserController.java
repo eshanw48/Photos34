@@ -32,7 +32,7 @@ import javafx.stage.Stage;
 
 
 
-public class UserController implements Initializable {
+public class UserController {
 
     @FXML
     private Button create;
@@ -251,13 +251,16 @@ public class UserController implements Initializable {
 
     }
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+
+	public void initialize() {
 		
 		
 		albumList = FXCollections.observableArrayList();
 
+		
 		User currUser = Persistance.getUser(LoginController.getUserIndex());  // holds the current user
+		
+	
 		
 		labelUser.setText("Welcome " + currUser + " !");
 		
@@ -293,6 +296,7 @@ public class UserController implements Initializable {
 			
 			displayAlbums.getSelectionModel().select(0);
 		}
+		
 		
 
 }

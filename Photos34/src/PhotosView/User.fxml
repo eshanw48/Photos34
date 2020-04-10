@@ -16,7 +16,7 @@
          </font>
       </Button>
       <TextField fx:id="AlbumName" layoutX="358.0" layoutY="175.0" prefHeight="27.0" prefWidth="235.0" />
-      <Label layoutX="179.0" layoutY="7.0" prefHeight="80.0" prefWidth="314.0" text="Welcome Name of User here!">
+      <Label fx:id="labelUser" layoutX="179.0" layoutY="7.0" prefHeight="80.0" prefWidth="314.0" text="Welcome Name of User here!">
          <font>
             <Font size="19.0" />
          </font>
@@ -58,10 +58,10 @@
       </Button>
       <TableView fx:id="displayAlbums" layoutX="28.0" layoutY="146.0" prefHeight="204.0" prefWidth="302.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Name" />
-          <TableColumn prefWidth="75.0" text="Photos" />
-            <TableColumn prefWidth="75.0" text="Earliest" />
-            <TableColumn prefWidth="75.0" text="Latest" />
+          <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="photoColumn" prefWidth="75.0" text="Photos" />
+            <TableColumn fx:id="earlyColumn" prefWidth="75.0" text="Earliest" />
+            <TableColumn fx:id="lateColumn" prefWidth="75.0" text="Latest" />
         </columns>
       </TableView>
       <Button fx:id="open" layoutX="422.0" layoutY="248.0" mnemonicParsing="false" onAction="#openButton" prefHeight="28.0" prefWidth="107.0" text="Open Album">

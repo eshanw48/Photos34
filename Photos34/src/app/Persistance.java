@@ -69,13 +69,20 @@ public class Persistance {
 	//deprecated
 	public static void writeUser() throws IOException {
 		
-		String fileName = "users.dat";
+		String fileName = "data/users.dat";
+		
+		//new code
+		File data = new File(fileName);
+		
+		//creates the file if it does not exist
+		data.createNewFile();
+		
 		
 		ObjectOutputStream os = null;
 
 		try {
-			
-			 os = new ObjectOutputStream(new FileOutputStream(fileName));
+			 //we set false below to OVERWRITE the data file when we write it
+			 os = new ObjectOutputStream(new FileOutputStream(data,false));
 			 
 			 os.writeObject(users);
 			
@@ -186,13 +193,39 @@ public class Persistance {
 	//deprecated
 	public static void readUser() throws IOException, ParseException {
 		
-		String fileName = "users.dat";
+		String fileName = "data/users.dat";
 		
-		File file = new File("users.dat");
+		File file = new File(fileName);
+		
+		if (!file.exists()) {
+			//if the file does not exist, we should create it and add the stock user,album, and photo
+			User stock = new User("stock");
+			Album stockAlbum = new Album("stock album");
+			stock.addAlbum(stockAlbum);
+			Photo stockPhoto= new Photo("stock photo", new File("data/stockPhotos/test.png"));
+			stockAlbum.addPhoto(stockPhoto);
+			//resetting users
+			users=new ArrayList<User>();
+			users.add(stock);
+		} else {
+			//then we should just read the array
+			try {
+				
+				ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
+				 
+		        users = (List<User>) in.readObject(); 	
+		        
+		        in.close();
+		        
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*
 		
 		String[] names = {""};
 		
-		String[] fileLoc = {"src/stock/TEST.jpg"};
+		String[] fileLoc = {"data/stockPhotos/test.jpg"};
 		
 		Album stockAlbum = new Album("stock album");
 		
@@ -230,7 +263,7 @@ public class Persistance {
 										
 					stockAlbum.setEndDate(image.getPhotoDate());
 				}
-				*/
+				
 				
 				stockAlbum.addPhoto(image);	
 			
@@ -258,7 +291,7 @@ public class Persistance {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+		*/
 	}
 		
 		

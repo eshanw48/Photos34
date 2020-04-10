@@ -56,7 +56,7 @@ public class LoginController {
     void submitButton(ActionEvent event) {
     
     	
-    	String user = username.getText();
+    	String user = username.getText().trim();
 		if(user.equals("") || user == null){
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setHeaderText("Error");
