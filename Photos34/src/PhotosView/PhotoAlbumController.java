@@ -81,6 +81,11 @@ public class PhotoAlbumController {
     	
     	photos.setItems(photoList);
     	
+    	//setting up listener for our listview
+    	photos.getSelectionModel().selectedItemProperty().addListener( 
+    			(obs,oldVal,newVal) -> showPhoto()
+    			);
+    	
     	if (!photoList.isEmpty()) {
     		//select 1st item if list is not null
     		photos.getSelectionModel().select(0);
@@ -115,9 +120,14 @@ public class PhotoAlbumController {
     		//error case
     	} else {
     		//then we should create a photo object and see if its possible to add into the current album
+    		System.out.println("Path of file below:");
+    		
     		Photo toAdd = new Photo("Enter Caption",selectedFile);
+    		System.out.println(toAdd.getLocation());
     		if (Persistance.getUser(LoginController.getUserIndex()).getAlbum(UserController.getOpenAlbumIndex()).addPhoto(toAdd)) {
-    			//then add is successful
+    			//then add is successful so we should also add to the observable list
+    			photoList.add(toAdd);
+    			photos.refresh();
     		} else {
     			//then we already have this image in the album
     		}
@@ -172,22 +182,34 @@ public class PhotoAlbumController {
 
     @FXML
     void moveButton(ActionEvent event) {
-
+    	//initiates screen to move photo to a different album
     }
 
     @FXML
     void removeButton(ActionEvent event) {
-
+    	//removes photo from the album
     }
 
     @FXML
     void restoreButton(ActionEvent event) {
-
+    	//this is just to reset the caption in case the user wants to cancel their edit or makes changes by mistake
+    	caption.setText(photos.getSelectionModel().getSelectedItem().getCaption());
     }
 
     @FXML
     void viewButton(ActionEvent event) {
 
+    }
+    
+    private void showPhoto() {
+    	if (photoList.isEmpty()) {
+    		caption.setText("");
+    	} else {
+    		//getting the selected photo
+    		Photo selected = photos.getSelectionModel().getSelectedItem();
+    		//updating caption
+    		caption.setText(selected.getCaption());
+    	}
     }
 
 }
