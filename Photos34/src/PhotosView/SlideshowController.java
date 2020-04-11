@@ -66,7 +66,6 @@ public class SlideshowController implements Initializable {
     void nextButton(ActionEvent event) {
     	
     	Photo photo;
-		File file;
 		
 		if (currentPhoto == slideshow.length - 1)
 		{
@@ -76,25 +75,17 @@ public class SlideshowController implements Initializable {
 		}
 		
 		photo = slideshow[currentPhoto];
-		file = new File(photo.getLocation());
-		
-		if(file.exists())
-		{
-			Image display = new Image(file.toURI().toString());
+	
+		Image display = new Image(photo.getLocation());
 			images.setImage(display);
-		}
 		
-		else
-		{
-			images.setImage(null);
-		}
 
     }
 
     @FXML
     void previousButton(ActionEvent event) {
     	Photo photo;
-		File file;
+		
     	
     	if (currentPhoto <= 0)
 		{
@@ -104,25 +95,20 @@ public class SlideshowController implements Initializable {
 		}
 		
 		photo = slideshow[currentPhoto];
-		file = new File(photo.getLocation());
+	
 		
-		if(file.exists())
-		{
-			Image display = new Image(file.toURI().toString());
+			Image display = new Image(photo.getLocation());
 			images.setImage(display);
-		}
-		else
-		{
-			images.setImage(null);
-		}
+		
+
 
     }
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
-		Photo photo;
-		File file;
+		
+		Photo photo;		
+		
 		currentPhoto = 0;
 		
 		User currentUser = Persistance.getUser(LoginController.getUserIndex());
@@ -138,19 +124,16 @@ public class SlideshowController implements Initializable {
 		
 		slideshow = photoList.toArray(new Photo[0]);
 		
-//	photo = slideshow[currentPhoto];
-//	file = new File(photo.getLocation());
+		photo = slideshow[currentPhoto];
+	
 		
-	//	if(file.exists())
-	//	{
-			Image display = new Image("test.png"); //CHANGE THIS LATER
+			Image display = new Image(photo.getLocation());
 			images.setImage(display);
-	//	}
-	///	else
-	///	{
-	//		images.setImage(null);
-	//	}
-				
+		
+		
+		
+
+	
 	}
 
 }
