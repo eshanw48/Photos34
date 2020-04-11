@@ -251,7 +251,10 @@ public class UserController {
     		}
     		
     		//then we have no renaming conflict and we can change the name
-    		displayAlbums.getSelectionModel().getSelectedItem().setAlbumName(newName);
+    		//changing name in observeable list
+    		albumList.get(displayAlbums.getSelectionModel().getSelectedIndex()).setAlbumName(newName);
+    		//refreshing tableview to show update
+    		displayAlbums.refresh();
     		
     	}
     	
