@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -30,7 +31,6 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <ListView fx:id="photo" layoutX="28.0" layoutY="89.0" prefHeight="200.0" prefWidth="259.0" />
       <Label layoutX="121.0" layoutY="35.0" prefHeight="80.0" prefWidth="314.0" text="Photo:">
          <font>
             <Font size="19.0" />
@@ -57,7 +57,7 @@
          </font>
       </Button>
       <TextField fx:id="time" layoutX="402.0" layoutY="76.0" prefHeight="27.0" prefWidth="145.0" />
-      <ListView fx:id="photo1" layoutX="363.0" layoutY="150.0" prefHeight="134.0" prefWidth="204.0" />
+      <ListView fx:id="tags" layoutX="363.0" layoutY="150.0" prefHeight="134.0" prefWidth="204.0" />
       <Label layoutX="360.0" layoutY="89.0" prefHeight="80.0" prefWidth="314.0" text="Tags And Values:">
          <font>
             <Font size="19.0" />
@@ -83,5 +83,6 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <ImageView fx:id="images" fitHeight="187.0" fitWidth="278.0" layoutX="14.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
