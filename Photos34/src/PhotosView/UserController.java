@@ -378,6 +378,14 @@ public class UserController {
 			}
 		});
 		
+		//setting up listener for our tableView
+		displayAlbums
+		.getSelectionModel()
+		.selectedItemProperty()
+		.addListener( 
+				(obs,oldVal,newVal)->
+				showAlbum());
+		
 		
 		
 		
@@ -393,6 +401,17 @@ public class UserController {
 	public static int getOpenAlbumIndex() {
 		
 		return openAlbumIndex;
+	}
+	
+	private void showAlbum() {
+		if (albumList.isEmpty()) {
+			AlbumName.setText("");
+		} else {
+			//getting selected album
+			Album selected =displayAlbums.getSelectionModel().getSelectedItem();
+			AlbumName.setText(selected.getAlbumName());
+		}
+		
 	}
 }
 
