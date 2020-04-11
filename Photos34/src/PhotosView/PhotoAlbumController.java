@@ -79,8 +79,8 @@ public class PhotoAlbumController {
     //observeable list to monitor changes in our photo list for the album
     private static ObservableList<Photo> photoList;
     
-  //index of the song that is chosen for displaying
-    public static int songIndex;
+  //index of the photo that is chosen for displaying
+    public static int photoIndex;
 
     //boolean that is true for initiated copy and false for initiated move
     public static boolean copyOrMove;
@@ -168,10 +168,9 @@ public class PhotoAlbumController {
     		//error case
     	} else {
     		//then we should create a photo object and see if its possible to add into the current album
-    		System.out.println("Path of file below:");
+    		
     		
     		Photo toAdd = new Photo("Enter Caption",selectedFile);
-    		System.out.println(toAdd.getLocation());
     		if (Persistance.getUser(LoginController.getUserIndex()).getAlbum(UserController.getOpenAlbumIndex()).addPhoto(toAdd)) {
     			//then add is successful so we should also add to the observable list
     			photoList.add(toAdd);
@@ -192,6 +191,17 @@ public class PhotoAlbumController {
     @FXML
     void copyButton(ActionEvent event) {
     	try {
+    		if (photoList.isEmpty()) {
+    			//then we cant possibly move anything 
+    			Alert error = new Alert(AlertType.ERROR);
+				error.setTitle("Rename Error");
+				error.setContentText("Photo List is Empty!");
+				error.show();
+				return;
+    		}
+    		photoIndex = photos.getSelectionModel().getSelectedIndex();
+    		copyOrMove=true;
+    		
 			Stage stage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/PhotosView/PhotosMoveCopy.fxml"));
@@ -223,7 +233,17 @@ public class PhotoAlbumController {
 
     @FXML
     void finalizeButton(ActionEvent event) {
-
+    	//change the caption to the users choice
+    	if (photoList.isEmpty()) {
+    		//then we dont have a photo selected
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Caption Error");
+			error.setContentText("Photo List is Empty!");
+			error.show();
+			return;
+    	}
+    	Photo toChange = photos.getSelectionModel().getSelectedItem();
+    	toChange.setCaption(caption.getText().trim());
     }
 
     @FXML
@@ -251,6 +271,16 @@ public class PhotoAlbumController {
     void moveButton(ActionEvent event) {
     	//initiates screen to move photo to a different album
     	try {
+    		if (photoList.isEmpty()) {
+    			//then we cant possibly move anything 
+    			Alert error = new Alert(AlertType.ERROR);
+				error.setTitle("Rename Error");
+				error.setContentText("Photo List is Empty!");
+				error.show();
+				return;
+    		}
+    		photoIndex = photos.getSelectionModel().getSelectedIndex();
+    		copyOrMove=false;
 			Stage stage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/PhotosView/PhotosMoveCopy.fxml"));
@@ -275,12 +305,43 @@ public class PhotoAlbumController {
     @FXML
     void restoreButton(ActionEvent event) {
     	//this is just to reset the caption in case the user wants to cancel their edit or makes changes by mistake
+    	if (photoList.isEmpty()) {
+    		return;
+    	}
     	caption.setText(photos.getSelectionModel().getSelectedItem().getCaption());
     }
 
     @FXML
     void viewButton(ActionEvent event) {
-
+    	//initiates transition to view screen with selected photo
+    	
+    	
+    		if (photoList.isEmpty()) {
+    			//then we cant possibly show a photo
+    			Alert error = new Alert(AlertType.ERROR);
+				error.setTitle("Display Error");
+				error.setContentText("Photo List is Empty!");
+				error.show();
+				return;
+    		}
+    		
+    		photoIndex=photos.getSelectionModel().getSelectedIndex();
+    		
+    	try {
+			Stage stage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/PhotosView/PhotoDisplay.fxml"));
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+			
+			Scene scene = new Scene(rootLayout);
+			
+			stage.setScene(scene);
+			((Node)event.getSource()).getScene().getWindow().hide();
+			stage.show();	
+			
+		} catch (IOException m) {
+			m.printStackTrace();
+		}
     }
     
     private void showPhoto() {
