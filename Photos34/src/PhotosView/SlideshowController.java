@@ -1,18 +1,29 @@
 package PhotosView;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ResourceBundle;
 
+import app.Persistance;
+import app.Photo;
+import app.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class SlideshowController {
+public class SlideshowController implements Initializable {
 
     @FXML
     private ImageView images;
@@ -25,6 +36,10 @@ public class SlideshowController {
 
     @FXML
     private Button next;
+    
+    private static Photo[] slideshow;
+    
+    private static int currentPhoto = 0;
 
     @FXML
     void exitButton(ActionEvent event) {
@@ -49,12 +64,93 @@ public class SlideshowController {
 
     @FXML
     void nextButton(ActionEvent event) {
+    	
+    	Photo photo;
+		File file;
+		
+		if (currentPhoto == slideshow.length - 1)
+		{
+			currentPhoto = 0;
+		} else {
+			currentPhoto ++;
+		}
+		
+		photo = slideshow[currentPhoto];
+		file = new File(photo.getLocation());
+		
+		if(file.exists())
+		{
+			Image display = new Image(file.toURI().toString());
+			images.setImage(display);
+		}
+		
+		else
+		{
+			images.setImage(null);
+		}
 
     }
 
     @FXML
     void previousButton(ActionEvent event) {
+    	Photo photo;
+		File file;
+    	
+    	if (currentPhoto <= 0)
+		{
+			currentPhoto = slideshow.length - 1;
+		} else {
+			currentPhoto --;
+		}
+		
+		photo = slideshow[currentPhoto];
+		file = new File(photo.getLocation());
+		
+		if(file.exists())
+		{
+			Image display = new Image(file.toURI().toString());
+			images.setImage(display);
+		}
+		else
+		{
+			images.setImage(null);
+		}
 
     }
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+
+		Photo photo;
+		File file;
+		currentPhoto = 0;
+		
+		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		
+		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
+		
+		List<Photo> photoList = new ArrayList<>();
+		
+		while(photoIter.hasNext())
+		{
+			photoList.add(photoIter.next());
+		}
+		
+		slideshow = photoList.toArray(new Photo[0]);
+		
+//	photo = slideshow[currentPhoto];
+//	file = new File(photo.getLocation());
+		
+	//	if(file.exists())
+	//	{
+			Image display = new Image("test.png"); //CHANGE THIS LATER
+			images.setImage(display);
+	//	}
+	///	else
+	///	{
+	//		images.setImage(null);
+	//	}
+				
+	}
 
 }
