@@ -2,7 +2,12 @@ package PhotosView;
 
 import java.io.IOException;
 
+import app.Album;
+import app.Persistance;
+import app.Photo;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 //import for file browser users need to pick their images for albums.
@@ -37,7 +43,7 @@ public class PhotoAlbumController {
     private Button logout;
 
     @FXML
-    private ListView<?> photos;
+    private ListView<Photo> photos;
 
     @FXML
     private Button move;
@@ -56,6 +62,33 @@ public class PhotoAlbumController {
 
     @FXML
     private Button view;
+    
+    @FXML
+    private Label albumName;
+    
+    
+    //observeable list to monitor changes in our photo list for the album
+    private static ObservableList<Photo> photoList;
+    
+    
+    public void initialize() {
+    	//getting the album that was opened
+    	int albumIndex = UserController.getOpenAlbumIndex();
+    	int userIndex = LoginController.getUserIndex();
+    	Album opened = Persistance.getUser(userIndex).getAlbum(albumIndex);
+    	//setting up observable list 
+    	photoList = FXCollections.observableArrayList(opened.getPhotos());
+    	
+    	photos.setItems(photoList);
+    	
+    	if (!photoList.isEmpty()) {
+    		//select 1st item if list is not null
+    		photos.getSelectionModel().select(0);
+    	}
+    	
+    	//we want to just initialize the listview and the name of the album
+    	albumName.setText("Album: "+opened.getAlbumName());
+    }
 
     @FXML
     void addButton(ActionEvent event) {
@@ -82,6 +115,12 @@ public class PhotoAlbumController {
     		//error case
     	} else {
     		//then we should create a photo object and see if its possible to add into the current album
+    		Photo toAdd = new Photo("Enter Caption",selectedFile);
+    		if (Persistance.getUser(LoginController.getUserIndex()).getAlbum(UserController.getOpenAlbumIndex()).addPhoto(toAdd)) {
+    			//then add is successful
+    		} else {
+    			//then we already have this image in the album
+    		}
     		
     	}
     	

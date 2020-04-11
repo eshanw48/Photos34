@@ -163,7 +163,11 @@ public class Photo implements Serializable , Comparable<Photo>{
 		if (!(o instanceof Photo) || o==null) {
 			return false;
 		} else {
+	
 			Photo toCompare = (Photo) o;
+			if (toCompare.location==null || this.location==null) {
+				return false;
+			}
 			if (toCompare.location.equals(this.location)){
 				//they are located in the same place, so they represent the same photo,regardless of caption
 				return true;
@@ -243,6 +247,19 @@ public class Photo implements Serializable , Comparable<Photo>{
 	 */
 	public void setPhotoTags(List<Tag> photoTags) {
 		this.photoTags = photoTags;
+	}
+	
+	/**
+	 * String conversion of a Photo into the date it was taken (i.e Mon-Day-Year)
+	 */
+	public String toString() {
+		//first 3 letters of the month
+		String mon = this.getPhotoDate().getMonth().name().substring(3);
+		//day of month
+		String day = ""+this.getPhotoDate().getDayOfMonth();
+		//last two digits of year
+		String year = ""+(this.getPhotoDate().getYear()%100);
+		return mon+"-"+day+"-"+year;
 	}
 
 }

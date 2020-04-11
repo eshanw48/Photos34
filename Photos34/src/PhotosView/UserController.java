@@ -26,11 +26,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.TreeTableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-
+import java.time.LocalDateTime;
 
 public class UserController {
 
@@ -69,13 +70,13 @@ public class UserController {
     private TableColumn<Album, String> nameColumn;
 
     @FXML
-    private TableColumn<Album, String> photoColumn;
+    private TableColumn<Album, Integer> photoColumn;
 
     @FXML
-    private TableColumn<Album, String> earlyColumn;
+    private TableColumn<Album, LocalDateTime> earlyColumn;
 
     @FXML
-    private TableColumn<Album, String> lateColumn;
+    private TableColumn<Album, LocalDateTime> lateColumn;
     
     private static ObservableList<Album> albumList;
     
@@ -98,39 +99,25 @@ public class UserController {
 			return;
 		}
 		
-		User currUser = Persistance.getUser(LoginController.getUserIndex());
-		
-		Iterator<Album> albumIter = currUser.albumIterator();
-		
-		while(albumIter.hasNext()) {
+		User currUser = Persistance.getUser(userIndex);
+		Album toAdd = new Album(albumName);
+		if (!currUser.addAlbum(toAdd)) {
+			//then our user entered a duplicate
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Input Error");
+			error.setContentText("Existing Album");
+			error.show();
 			
-			
-			if(AlbumName.getText().trim().equals(albumIter.next().getAlbumName())) {
-				
-				Alert error = new Alert(AlertType.ERROR);
-				error.setTitle("Input Error");
-				error.setContentText("Existing Album");
-				error.show();
-				
-				return;
-				
-			}
-			
+			return;
 		}
 		
-		
-		Album album = new Album(albumName);  // create new album instance
-				
-		//User currUser = Persistance.getUser(userIndex);
-	
-		currUser.addAlbum(album);
-		
-		albumList.add(album);  // insert album in observable list
-		
+		//if we got here, then the album was successfully added to the user object
+		//adding to observeable list
+		albumList.add(toAdd);
 		
 		
 		displayAlbums.getSelectionModel().select(albumList.size()-1);  // selects the last album to be inserted into list
-
+		
 
     }
 
@@ -239,15 +226,56 @@ public class UserController {
 
     @FXML
     void renameButton(ActionEvent event) {
-    	
+    	//the selected album is the album that the user wishes to rename
+    	if (albumList.isEmpty()) {
+    		//then show error dialog
+    	} else {
+    		//we now rename
+    		String newName = AlbumName.getText().trim();
+    		
+    		for (int i=0;i<albumList.size();i++) {
+    			if (i!=displayAlbums.getSelectionModel().getSelectedIndex()) {
+    				//then we are checking other albums
+    				Album compare = albumList.get(i);
+    				if (compare.getAlbumName().equals(newName)) {
+    					//then we have a naming conflict and we should show dialogue error
+    					//then our user entered a duplicate
+    					Alert error = new Alert(AlertType.ERROR);
+    					error.setTitle("Rename Error");
+    					error.setContentText("Cannot Rename This Album With The Same Name As Another Album!");
+    					error.show();
+    					return;
+    				}
+    			}
+    			
+    		}
+    		
+    		//then we have no renaming conflict and we can change the name
+    		displayAlbums.getSelectionModel().getSelectedItem().setAlbumName(newName);
+    		
+    	}
     	
 
     }
 
     @FXML
     void searchButton(ActionEvent event) {
-    	
-    	
+    	//should go to search screen now
+    	try {
+			Stage stage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/PhotosView/PhotoSearch.fxml"));
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+			
+			Scene scene = new Scene(rootLayout);
+			
+			stage.setScene(scene);
+			((Node)event.getSource()).getScene().getWindow().hide();
+			stage.show();	
+			
+		} catch (IOException m) {
+			m.printStackTrace();
+		}
 
     }
 
@@ -255,16 +283,18 @@ public class UserController {
 	public void initialize() {
 		
 		
-		albumList = FXCollections.observableArrayList();
+		
 
 		
 		User currUser = Persistance.getUser(LoginController.getUserIndex());  // holds the current user
+		
+		albumList = FXCollections.observableArrayList(currUser.getAlbums());
 		
 	
 		
 		labelUser.setText("Welcome " + currUser + " !");
 		
-		
+		/*
 		Iterator<Album> albumInter = currUser.albumIterator();
 		
 		while(albumInter.hasNext()) {  // Load all albums from current user
@@ -272,22 +302,26 @@ public class UserController {
 			albumList.add(albumInter.next());
 						
 		}			
-		
+		*/
 				
 		displayAlbums.setItems(albumList);
 		
-	//	displayAlbums.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);	
+		displayAlbums.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);	
 		
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("albumName"));
 		
 		
 		photoColumn.setCellValueFactory(new PropertyValueFactory<>("numOfPhotos"));
 	
+		//FIGURE OUT TABLE STUFF
+		//earlyColumn.setCellValueFactory(new PropertyValueFactory<>("beginDate"));  
+		//earlyColumn.setCellFactory(arg0);
+		//earlyColumn.setCellValueFactory(a -> new ObservableValue<LocalDateTime>(a.getValue().getBeginDate()));
+		//earlyColumn.setCellFactory(a -> a.get);
+		//earlyColumn.setCellValueFactory(a -> a.getValue().getBeginDate());
 		
-	//	earlyColumn.setCellValueFactory(new PropertyValueFactory<>("early"));  
-	
 		
-	//	lateColumn.setCellValueFactory(new PropertyValueFactory<>("late"));  
+		//lateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));  
 		
 		
 		

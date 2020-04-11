@@ -15,7 +15,7 @@
          </font>
       </Button>
       <TextField fx:id="caption" layoutX="335.0" layoutY="135.0" prefHeight="27.0" prefWidth="231.0" />
-      <Label layoutX="242.0" layoutY="7.0" prefHeight="80.0" prefWidth="314.0" text="Album: Name here">
+      <Label fx:id="albumName" layoutX="242.0" layoutY="7.0" prefHeight="80.0" prefWidth="314.0" text="Album: Name here">
          <font>
             <Font size="19.0" />
          </font>

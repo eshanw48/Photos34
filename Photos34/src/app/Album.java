@@ -53,12 +53,30 @@ public class Album implements Serializable{
 	public Album(String albumName) {
 		this.photos=new ArrayList<Photo>();
 		
-		this.albumName = albumName;
+		this.albumName = albumName.trim();
 		
 		this.numOfPhotos = 0;
 		this.beginDate=null;
 		this.endDate=null;
 		
+	}
+	
+	
+	/**
+	 * Overriding object equals for album. Two albums are equal if they have the same exact name.
+	 */
+	public boolean equals(Object o) {
+		if (!(o instanceof Album) || o==null) {
+			return false;
+		} else {
+			Album toCompare = (Album) o;
+			if (toCompare.getAlbumName().equals(this.getAlbumName())) {
+				//then they are considered the same album
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 	
 	public void setAlbumName(String albumName) {
@@ -338,4 +356,8 @@ public class Album implements Serializable{
 		
 		return String.format("%s %50s %s - %s", albumName,numOfPhotos,beginDate,endDate);
 }
+	
+	public List<Photo> getPhotos(){
+		return this.photos;
+	}
 }

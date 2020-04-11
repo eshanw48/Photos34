@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 
 
 
@@ -34,10 +37,32 @@ public class User implements Serializable{
 	}
 	
 		
-	public void addAlbum(Album album) {
+	public boolean addAlbum(Album album) {
 		
+		
+		
+			
+		Iterator<Album> albumIter = this.albumIterator();
+		
+		while(albumIter.hasNext()) {
+			
+			
+			if(albumIter.next().equals(album)) {
+				
+				//then we are trying to add an album with the same exact name as an existing one
+				return false;
+				
+				
+				
+			}
+			
+		}
+		//no duplicates found, so we can safely add
 		albums.add(album);
+		return true;
 	}
+	
+	
 	
 	public void delAlbum(int index) {
 		
@@ -53,6 +78,12 @@ public class User implements Serializable{
 		
 		return albums.iterator();
 	}
+	
+	
+	public List<Album> getAlbums(){
+		return this.albums;
+	}
+	
 	
 	/*
 	public Iterator<Photo> userPhotosIterator() {
