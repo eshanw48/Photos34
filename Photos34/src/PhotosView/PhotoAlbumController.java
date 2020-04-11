@@ -220,11 +220,43 @@ public class PhotoAlbumController {
 
     @FXML
     void displayButton(ActionEvent event) {
+    	
+    	//initiates transition to view screen with selected photo
+    	
+    	
+		if (photoList.isEmpty()) {
+			//then we cant possibly show a photo
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Display Error");
+			error.setContentText("Photo List is Empty!");
+			error.show();
+			return;
+		}
+		
+		photoIndex=photos.getSelectionModel().getSelectedIndex();
+		
+	try {
+		Stage stage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/PhotosView/PhotoDisplay.fxml"));
+		AnchorPane rootLayout = (AnchorPane) loader.load();
+		
+		Scene scene = new Scene(rootLayout);
+		
+		stage.setScene(scene);
+		((Node)event.getSource()).getScene().getWindow().hide();
+		stage.show();	
+		
+	} catch (IOException m) {
+		m.printStackTrace();
+	}
 
     }
 
     @FXML
-    void exitButton(ActionEvent event) {
+    void exitButton(ActionEvent event) throws IOException {
+    	
+    	Persistance.writeUser();
     	
     	Platform.exit();
     	System.exit(0);
@@ -313,35 +345,39 @@ public class PhotoAlbumController {
 
     @FXML
     void viewButton(ActionEvent event) {
+    	
+
     	//initiates transition to view screen with selected photo
     	
     	
-    		if (photoList.isEmpty()) {
-    			//then we cant possibly show a photo
-    			Alert error = new Alert(AlertType.ERROR);
-				error.setTitle("Display Error");
-				error.setContentText("Photo List is Empty!");
-				error.show();
-				return;
-    		}
-    		
-    		photoIndex=photos.getSelectionModel().getSelectedIndex();
-    		
-    	try {
-			Stage stage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/PhotosView/PhotoDisplay.fxml"));
-			AnchorPane rootLayout = (AnchorPane) loader.load();
-			
-			Scene scene = new Scene(rootLayout);
-			
-			stage.setScene(scene);
-			((Node)event.getSource()).getScene().getWindow().hide();
-			stage.show();	
-			
-		} catch (IOException m) {
-			m.printStackTrace();
+		if (photoList.isEmpty()) {
+			//then we cant possibly show a photo
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Display Error");
+			error.setContentText("Photo List is Empty!");
+			error.show();
+			return;
 		}
+		
+		photoIndex=photos.getSelectionModel().getSelectedIndex();
+		
+	try {
+		Stage stage = new Stage();
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/PhotosView/Slideshow.fxml"));
+		AnchorPane rootLayout = (AnchorPane) loader.load();
+		
+		Scene scene = new Scene(rootLayout);
+		
+		stage.setScene(scene);
+		((Node)event.getSource()).getScene().getWindow().hide();
+		stage.show();	
+		
+	} catch (IOException m) {
+		m.printStackTrace();
+	}
+
+    	
     }
     
     private void showPhoto() {
