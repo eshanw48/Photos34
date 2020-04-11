@@ -2,6 +2,7 @@ package PhotosView;
 
 import java.io.IOException;
 
+
 import app.Album;
 import app.Persistance;
 import app.Photo;
@@ -13,17 +14,25 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 //import for file browser users need to pick their images for albums.
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 import java.io.File;
+
+
 
 public class PhotoAlbumController {
 
@@ -70,6 +79,12 @@ public class PhotoAlbumController {
     //observeable list to monitor changes in our photo list for the album
     private static ObservableList<Photo> photoList;
     
+  //index of the song that is chosen for displaying
+    public static int songIndex;
+
+    //boolean that is true for initiated copy and false for initiated move
+    public static boolean copyOrMove;
+    
     
     public void initialize() {
     	//getting the album that was opened
@@ -80,6 +95,39 @@ public class PhotoAlbumController {
     	photoList = FXCollections.observableArrayList(opened.getPhotos());
     	
     	photos.setItems(photoList);
+    	
+    	
+    	
+    	//basically I want the cells in our listview to be set up as little image boxes with thumbnails followed by the caption
+    	photos.setCellFactory(new Callback<ListView<Photo>,ListCell<Photo>>(){
+    		@Override
+    		 public ListCell<Photo> call(ListView<Photo> p) {
+                
+                ListCell<Photo> cell= new ListCell<Photo>(){
+ 
+                    @Override
+                    protected void updateItem(Photo p, boolean bln) {
+                        super.updateItem(p, bln);
+                        if (p != null) {
+                        	Image thumbnail = new Image(p.getLocation());
+                        	ImageView thumb = new ImageView(thumbnail);
+                        	thumb.setFitHeight(100);
+                        	thumb.setFitWidth(100);
+                        	setGraphic(thumb);
+                            setText(p.getCaption());
+                        }
+                        else if (p == null)
+                        {
+                        	
+                        	setText(null);
+                        }
+                    }
+ 
+                };
+                 
+                return cell;
+            }
+    	});
     	
     	//setting up listener for our listview
     	photos.getSelectionModel().selectedItemProperty().addListener( 
@@ -130,6 +178,11 @@ public class PhotoAlbumController {
     			photos.refresh();
     		} else {
     			//then we already have this image in the album
+    			Alert error = new Alert(AlertType.ERROR);
+				error.setTitle("Rename Error");
+				error.setContentText("Image Already Exists In This Album!");
+				error.show();
+				return;
     		}
     		
     	}
@@ -138,7 +191,21 @@ public class PhotoAlbumController {
 
     @FXML
     void copyButton(ActionEvent event) {
-
+    	try {
+			Stage stage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/PhotosView/PhotosMoveCopy.fxml"));
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+			
+			Scene scene = new Scene(rootLayout);
+			
+			stage.setScene(scene);
+			((Node)event.getSource()).getScene().getWindow().hide();
+			stage.show();	
+			
+		} catch (IOException m) {
+			m.printStackTrace();
+		}
     }
 
     @FXML
@@ -183,6 +250,21 @@ public class PhotoAlbumController {
     @FXML
     void moveButton(ActionEvent event) {
     	//initiates screen to move photo to a different album
+    	try {
+			Stage stage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/PhotosView/PhotosMoveCopy.fxml"));
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+			
+			Scene scene = new Scene(rootLayout);
+			
+			stage.setScene(scene);
+			((Node)event.getSource()).getScene().getWindow().hide();
+			stage.show();	
+			
+		} catch (IOException m) {
+			m.printStackTrace();
+		}
     }
 
     @FXML

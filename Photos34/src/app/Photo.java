@@ -54,7 +54,7 @@ public class Photo implements Serializable , Comparable<Photo>{
 		
 		//LocalDateTime instance for our photos
 		this.photoDate= LocalDateTime.ofInstant(mill,ZoneId.systemDefault());
-		this.location=found.getAbsolutePath();
+		this.location="file:"+found.getAbsolutePath();
 		
 	}
 	
