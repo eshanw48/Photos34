@@ -105,6 +105,15 @@ public class UserController {
 		}
 		
 		User currUser = Persistance.getUser(userIndex);
+		if (currUser.toString().equals("stock")) {
+			//we cant add albums to our default stock user
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Input Error");
+			error.setContentText("Cant add albums to default stock user. Please create your own user!");
+			error.show();
+			
+			return;
+		}
 		Album toAdd = new Album(albumName);
 		if (!currUser.addAlbum(toAdd)) {
 			//then our user entered a duplicate
@@ -133,6 +142,15 @@ public class UserController {
 			
 			return;
 		}
+    	
+    	if (Persistance.getUser(LoginController.getUserIndex()).toString().equals("stock")) {
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Input Error");
+			error.setContentText("We cannot delete albums from the stock user!");
+			error.show();
+			
+			return;
+    	}
 		
 		Album selectedAlbum = displayAlbums.getSelectionModel().getSelectedItem();  // gets title of song that is selected
 		
@@ -234,7 +252,23 @@ public class UserController {
     	//the selected album is the album that the user wishes to rename
     	if (albumList.isEmpty()) {
     		//then show error dialog
-    	} else {
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Input Error");
+			error.setContentText("No Album In The List to Rename!");
+			error.show();
+			
+			return;
+    	} else if(Persistance.getUser(LoginController.getUserIndex()).toString().equals("stock")) {
+    		//then we are in stock user and trying to rename stock album
+    		//this should not be allowed
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Input Error");
+			error.setContentText("Cannot rename Stock Default Album!");
+			error.show();
+			
+			return;
+    	}else {
+    	
     		//we now rename
     		String newName = AlbumName.getText().trim();
     		
