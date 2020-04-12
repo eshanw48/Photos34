@@ -11,11 +11,17 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class PhotoSearchController {
 
@@ -47,7 +53,7 @@ public class PhotoSearchController {
     private TextField Value1;
 
     @FXML
-    private RadioButton and;
+    private ToggleButton and;
     
     @FXML
     private TextField Tag2;
@@ -68,8 +74,50 @@ public class PhotoSearchController {
     private Button createAlbum;
 
     @FXML
-    private RadioButton or;
+    private ToggleButton or;
 
+    public void initialize() {
+    	//we have to initialize the radio buttons to be in the same group
+    	//togglegroup for search methods
+    	ToggleGroup searches = new ToggleGroup();
+    	dateRange.setToggleGroup(searches);
+    	tagAndValue.setToggleGroup(searches);
+    	//another  togglegroup for and/or
+    	ToggleGroup orAnd = new ToggleGroup();
+    	or.setToggleGroup(orAnd);
+    	and.setToggleGroup(orAnd);
+    	
+    	//setting up ListView cell factory
+    	searchResults.setCellFactory(new Callback<ListView<Photo>,ListCell<Photo>>(){
+    		@Override
+    		 public ListCell<Photo> call(ListView<Photo> p) {
+                
+                ListCell<Photo> cell= new ListCell<Photo>(){
+ 
+                    @Override
+                    protected void updateItem(Photo p, boolean bln) {
+                        super.updateItem(p, bln);
+                        if (p != null) {
+                        	Image thumbnail = new Image(p.getLocation());
+                        	ImageView thumb = new ImageView(thumbnail);
+                        	thumb.setFitHeight(100);
+                        	thumb.setFitWidth(100);
+                        	setGraphic(thumb);
+                            setText(p.getCaption());
+                        }
+                        else if (p == null)
+                        {
+                        	setGraphic(null);
+                        	setText(null);
+                        }
+                    }
+ 
+                };
+                 
+                return cell;
+            }
+    	});
+    }
     
 
     @FXML

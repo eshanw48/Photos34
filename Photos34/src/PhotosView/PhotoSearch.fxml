@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -66,13 +67,8 @@
       </Label>
       <TextField fx:id="Tag1" layoutX="110.0" layoutY="249.0" prefHeight="27.0" prefWidth="97.0" text="Tag 1" />
       <TextField fx:id="Value1" layoutX="212.0" layoutY="249.0" prefHeight="27.0" prefWidth="97.0" text="Value 1" />
-      <Label layoutX="14.0" layoutY="287.0" prefHeight="28.0" prefWidth="41.0" text="And:">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Label>
       <TextField fx:id="Tag2" layoutX="122.0" layoutY="318.0" prefHeight="27.0" prefWidth="97.0" text="Tag 2" />
-      <RadioButton fx:id="and" layoutX="70.0" layoutY="292.0" mnemonicParsing="false" />
+      <ToggleButton fx:id="and" layoutX="30.0" layoutY="287.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="55.0" text="And" />
       <Label layoutX="14.0" layoutY="319.0" prefHeight="28.0" prefWidth="107.0" text="Tag/Value 2:">
          <font>
             <Font size="19.0" />
@@ -96,11 +92,6 @@
             <Font size="12.0" />
          </font>
       </Button>
-      <Label layoutX="187.0" layoutY="287.0" prefHeight="28.0" prefWidth="41.0" text="Or:">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Label>
-      <RadioButton fx:id="or" layoutX="235.0" layoutY="292.0" mnemonicParsing="false" />
+      <ToggleButton fx:id="or" layoutX="98.0" layoutY="287.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="47.0" text="Or" />
    </children>
 </AnchorPane>
