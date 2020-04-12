@@ -167,6 +167,13 @@ public class Album implements Serializable{
 		
 	}
 	
+	public Photo getPhoto(int index) {
+		if (index<0 || index>=this.photos.size()) {
+			return null;
+		}
+		return this.photos.get(index);
+	}
+	
 	/**
 	 * Method for deleting a specific photo from our album.
 	 * @param p Photo to delete

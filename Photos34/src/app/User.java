@@ -64,13 +64,18 @@ public class User implements Serializable{
 	
 	
 	
-	public void delAlbum(int index) {
-		
+	public boolean delAlbum(int index) {
+		if (index<0 || index>=this.albums.size()) {
+			return false;
+		}
 		albums.remove(index);
+		return true;
 	}
 	
 	public Album getAlbum(int index) {
-		
+		if (index<0 || index>=this.albums.size()) {
+			return null;
+		}
 		return albums.get(index);
 	}
 	

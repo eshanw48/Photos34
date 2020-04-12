@@ -76,6 +76,9 @@ public class PhotoAlbumController {
     @FXML
     private Label albumName;
     
+    @FXML
+    private Button back;
+    
     
     //observeable list to monitor changes in our photo list for the album
     private static ObservableList<Photo> photoList;
@@ -119,7 +122,7 @@ public class PhotoAlbumController {
                         }
                         else if (p == null)
                         {
-                        	
+                        	setGraphic(null);
                         	setText(null);
                         }
                     }
@@ -199,7 +202,14 @@ public class PhotoAlbumController {
 
     @FXML
     void copyButton(ActionEvent event) {
-    	
+    	if (Persistance.getUser(LoginController.getUserIndex()).getAlbums().size()==1) {
+    		//then we cant move this to another album
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Move Error");
+			error.setContentText("No Other Albums To Move To!");
+			error.show();
+			return;
+    	}
     	try {
     		if (photoList.isEmpty()) {
     			//then we cant possibly move anything 
@@ -211,6 +221,7 @@ public class PhotoAlbumController {
     		}
     		photoIndex = photos.getSelectionModel().getSelectedIndex();
     		copyOrMove=true;
+    		PhotosMoveCopyController.setAlbumOrDisplay(true);
     		
 			Stage stage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
@@ -286,6 +297,7 @@ public class PhotoAlbumController {
     	}
     	Photo toChange = photos.getSelectionModel().getSelectedItem();
     	toChange.setCaption(caption.getText().trim());
+    	photos.refresh();
     }
 
     @FXML
@@ -320,6 +332,14 @@ public class PhotoAlbumController {
 			return;
     	}
     	//initiates screen to move photo to a different album
+    	if (Persistance.getUser(LoginController.getUserIndex()).getAlbums().size()==1) {
+    		//then we cant move this to another album
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Move Error");
+			error.setContentText("No Other Albums To Move To!");
+			error.show();
+			return;
+    	}
     	try {
     		if (photoList.isEmpty()) {
     			//then we cant possibly move anything 
@@ -331,6 +351,8 @@ public class PhotoAlbumController {
     		}
     		photoIndex = photos.getSelectionModel().getSelectedIndex();
     		copyOrMove=false;
+    		PhotosMoveCopyController.setAlbumOrDisplay(true);
+    		
 			Stage stage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/PhotosView/PhotosMoveCopy.fxml"));
@@ -415,7 +437,7 @@ public class PhotoAlbumController {
 	try {
 		Stage stage = new Stage();
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/PhotosView/Slideshow.fxml"));
+		loader.setLocation(getClass().getResource("/PhotosView/SlideShow.fxml"));
 		AnchorPane rootLayout = (AnchorPane) loader.load();
 		
 		Scene scene = new Scene(rootLayout);
@@ -431,6 +453,27 @@ public class PhotoAlbumController {
     	
     }
     
+    @FXML
+    public void backButton(ActionEvent event) {
+    	//just go back to the user page
+    	try {
+			Stage stage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/PhotosView/User.fxml"));
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+			
+			Scene scene = new Scene(rootLayout);
+			
+			stage.setScene(scene);
+			((Node)event.getSource()).getScene().getWindow().hide();
+			stage.show();
+			return;
+			
+		} catch (IOException m) {
+			m.printStackTrace();
+		}
+    }
+    
     private void showPhoto() {
     	if (photoList.isEmpty()) {
     		caption.setText("");
@@ -440,6 +483,14 @@ public class PhotoAlbumController {
     		//updating caption
     		caption.setText(selected.getCaption());
     	}
+    }
+    
+    public static int getOpenPhotoIndex() {
+    	return photoIndex;
+    }
+    
+    public static boolean getCopyOrMove() {
+    	return copyOrMove;
     }
 
 }
