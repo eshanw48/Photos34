@@ -13,6 +13,7 @@ import app.Photo;
 import app.Tag;
 import app.User;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,13 +21,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class PhotoDisplayController implements Initializable {
 
@@ -64,10 +69,10 @@ public class PhotoDisplayController implements Initializable {
     private ListView<Tag> tags;
 
     @FXML
-    private Button key;
+    private TextField key;
 
     @FXML
-    private Button value;
+    private TextField value;
 
     @FXML
     private Button add;
@@ -76,11 +81,37 @@ public class PhotoDisplayController implements Initializable {
     private Button remove;
     
     private ObservableList<Tag> tagList;
+    
+    private static boolean location = true; //ensures user only tags 1 location per photo
 
     @FXML
     void addButton(ActionEvent event) {
-
+    	
+    	Photo[] temp;
+		Photo photo;		
+			
+		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		
+		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
+		
+		List<Photo> photoList = new ArrayList<>();
+			
+		
+		while(photoIter.hasNext())
+		{
+			photoList.add(photoIter.next());
+		}
+		
+		temp = photoList.toArray(new Photo[0]);
+		
+		photo = temp[PhotoAlbumController.photoIndex];
+		
+		
+		
+		String tag = tagHelper(photo, "add", key.getText(), value.getText());
+		
     }
+    
 
     @FXML
     void albumButton(ActionEvent event) {
@@ -105,6 +136,8 @@ public class PhotoDisplayController implements Initializable {
 
     @FXML
     void copyButton(ActionEvent event) {
+    	
+    	
 
     }
 
@@ -120,11 +153,29 @@ public class PhotoDisplayController implements Initializable {
 
     @FXML
     void finalizeButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void keyButton(ActionEvent event) {
+    	
+    	Photo[] temp;
+		Photo photo;		
+			
+		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		
+		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
+		
+		List<Photo> photoList = new ArrayList<>();
+		
+		while(photoIter.hasNext())
+		{
+			photoList.add(photoIter.next());
+		}
+		
+		temp = photoList.toArray(new Photo[0]);
+		
+		photo = temp[PhotoAlbumController.photoIndex];
+    	
+    	Photo toChange = photo;
+    	toChange.setCaption(caption.getText().trim());
+    	
+    	caption.setText(photo.getCaption());
 
     }
 
@@ -156,25 +207,44 @@ public class PhotoDisplayController implements Initializable {
 
     @FXML
     void removeButton(ActionEvent event) {
+    	
+    	Photo[] temp;
+		Photo photo;		
+			
+		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		
+		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
+		
+		List<Photo> photoList = new ArrayList<>();
+			
+		
+		while(photoIter.hasNext())
+		{
+			photoList.add(photoIter.next());
+		}
+		
+		temp = photoList.toArray(new Photo[0]);
+		
+		photo = temp[PhotoAlbumController.photoIndex];
+		
+		
+		
+		String tag = tagHelper(photo, "delete", key.getText(), value.getText());
+		
+	
+		}
 
-    }
+    
 
     @FXML
     void restoreButton(ActionEvent event) {
+    	
+    	//this is just to reset the caption in case the user wants to cancel their edit or makes changes by mistake
+    	
 
-    }
-
-    @FXML
-    void valueButton(ActionEvent event) {
-
-    }
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		Photo photo;
-		File file;
-	
-		
+    	Photo[] temp;
+		Photo photo;		
+			
 		User currentUser = Persistance.getUser(LoginController.getUserIndex());
 		
 		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
@@ -186,10 +256,163 @@ public class PhotoDisplayController implements Initializable {
 			photoList.add(photoIter.next());
 		}
 		
+		temp = photoList.toArray(new Photo[0]);
 		
-			Image display = new Image("test.png"); //just for the time being replace this
-			images.setImage(display);
+		photo = temp[PhotoAlbumController.photoIndex];
+    	
+    	caption.setText(photo.getCaption());
+
+    }
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		Photo[] temp;
+		Photo photo;		
+			
+		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		
+		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
+		
+		List<Photo> photoList = new ArrayList<>();
+		
+		while(photoIter.hasNext())
+		{
+			photoList.add(photoIter.next());
+		}
+		
+		temp = photoList.toArray(new Photo[0]);
+		
+		photo = temp[PhotoAlbumController.photoIndex];
+		
+		tagList = FXCollections.observableArrayList(photo.getPhotoTags());
+		tags.setItems(tagList);
+	
+		
+		Image display = new Image(photo.getLocation());
+		images.setImage(display);
+			
+		time.setText(photo.getPhotoDate().toString());
+		time.setEditable(false);
+		
+		tags.setCellFactory(new Callback<ListView<Tag>, ListCell<Tag>>(){
+    		@Override
+    		 public ListCell<Tag> call(ListView<Tag> p) {
+                
+                ListCell<Tag> cell= new ListCell<Tag>(){
+ 
+                    @Override
+                    protected void updateItem(Tag p, boolean bln) {
+                        super.updateItem(p, bln);
+                        if (p != null) {
+                        	//tags.setItems(tagList);
+                        	 
+                        }
+                        else if (p == null)
+                        {
+                        	
+                        	setText(null);
+                        }
+                    }
+ 
+                };
+                
+               
+                 
+                return cell;
+            }
+    	});
+    	
+    	//setting up listener for our listview
+		tags.getSelectionModel().selectedItemProperty().addListener( 
+    			(obs,oldVal,newVal) -> showPhoto()
+    			);
+    	
+    	if (!photoList.isEmpty()) {
+    		//select 1st item if list is not null
+    		tags.getSelectionModel().select(0);
+    	}
 		
 	}
+		
+	
+	
+	public static String tagHelper(Photo p, String operation, String type, String value)
+	{
+		
+		
+		
+		if (operation == "add")
+		{
+			
 
+		
+			if (type.equals("person") || (type.equals("Person")) || (type.equals("PERSON")) )
+			{
+			    p.addTag(type, value, true);
+			} 
+			else if (value.equals("location") || (value.equals("Location")) || (value.equals("LOCATION" ))) {
+				
+				if(location)
+				{
+					p.addTag(type, value, false); //can add only one location
+				}
+				
+				location = false;
+				
+				
+				
+			} else {
+			     
+			}
+			
+		} 
+		
+		else if (operation == "delete") {
+			
+			if (type.equals("person") || (type.equals("Person")) || (type.equals("PERSON")) )
+			{
+			   // p.removeTag();
+			} 
+			else if (value.equals("location") || (value.equals("Location")) || (value.equals("LOCATION" ))) {
+				
+				
+				
+		//		p.removeTag(); 
+				
+
+		
+		}
+		
+
+		}
+		return null;
 }
+	
+
+    private void showPhoto() {
+    
+    	Photo[] temp;
+		Photo photo;		
+			
+		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		
+		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
+		
+		List<Photo> photoList = new ArrayList<>();
+		
+		while(photoIter.hasNext())
+		{
+			photoList.add(photoIter.next());
+		}
+		
+		temp = photoList.toArray(new Photo[0]);
+		
+		photo = temp[PhotoAlbumController.photoIndex];
+		
+		caption.setText(photo.getCaption());
+		
+		tags.setItems(tagList);
+    	}
+    }
+
+
