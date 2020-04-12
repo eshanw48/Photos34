@@ -6,6 +6,7 @@ import java.io.IOException;
 import app.Album;
 import app.Persistance;
 import app.Photo;
+import app.User;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -145,6 +146,14 @@ public class PhotoAlbumController {
 
     @FXML
     void addButton(ActionEvent event) {
+    	if (Persistance.getUser(LoginController.getUserIndex()).toString().equals("stock")){
+    		//we cant change the stock albums
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Stock Error");
+			error.setContentText("Cannot Alter Stock Album!");
+			error.show();
+			return;
+    	}
     		//we want this to basically open a file browser so the user can select their photo
     		//we should check for photo specific endings (.jpeg,.png,etc.)?
     		//we should check for duplicates here too.
@@ -190,6 +199,7 @@ public class PhotoAlbumController {
 
     @FXML
     void copyButton(ActionEvent event) {
+    	
     	try {
     		if (photoList.isEmpty()) {
     			//then we cant possibly move anything 
@@ -301,6 +311,14 @@ public class PhotoAlbumController {
 
     @FXML
     void moveButton(ActionEvent event) {
+    	if (Persistance.getUser(LoginController.getUserIndex()).toString().equals("stock")){
+    		//we cant change the stock albums
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Stock Error");
+			error.setContentText("Use copy for Stock instead of move!");
+			error.show();
+			return;
+    	}
     	//initiates screen to move photo to a different album
     	try {
     		if (photoList.isEmpty()) {
@@ -331,14 +349,47 @@ public class PhotoAlbumController {
 
     @FXML
     void removeButton(ActionEvent event) {
+    	if (Persistance.getUser(LoginController.getUserIndex()).toString().equals("stock")){
+    		//we cant change the stock albums
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Stock Error");
+			error.setContentText("Cannot Alter Stock Album!");
+			error.show();
+			return;
+    	}
     	//removes photo from the album
+    	if (photoList.isEmpty()) {
+    		//then we cannot remove from empty list
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Remove Error");
+			error.setContentText("Cannot Remove From Empty List!");
+			error.show();
+			return;
+    	}
+    	
+    	Photo toRemove = photos.getSelectionModel().getSelectedItem();
+    	User forRemoval = Persistance.getUser(LoginController.getUserIndex());
+    	Album removeFrom =forRemoval.getAlbum(UserController.getOpenAlbumIndex());
+    	if (removeFrom.deletePhoto(toRemove)) {
+    		//then the photo was removed successfully
+    		//updating changes in listview
+    		photoList.remove(photos.getSelectionModel().getSelectedIndex());
+    		photos.refresh();
+    	} else {
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Remove Error");
+			error.setContentText("There was an error with deletion!");
+			error.show();
+			return;
+    	}
+    	
     }
 
     @FXML
     void restoreButton(ActionEvent event) {
     	//this is just to reset the caption in case the user wants to cancel their edit or makes changes by mistake
     	if (photoList.isEmpty()) {
-    		return;
+    		caption.setText("");
     	}
     	caption.setText(photos.getSelectionModel().getSelectedItem().getCaption());
     }
