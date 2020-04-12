@@ -262,5 +262,19 @@ public class Photo implements Serializable , Comparable<Photo>{
 		String year = ""+(this.getPhotoDate().getYear()%100);
 		return mon+"-"+day+"-"+year;
 	}
+	
+	public Tag getTag(String tag) {
+		tag=tag.trim().toLowerCase();
+		Iterator<Tag> tags = this.tagIterator();
+		while (tags.hasNext()) {
+			Tag toConsider = tags.next();
+			if (toConsider.getName().equals(tag)) {
+				//then the photo has this tag
+				return toConsider;
+			}
+		}
+		//then no such tag found
+		return null;
+	}
 
 }

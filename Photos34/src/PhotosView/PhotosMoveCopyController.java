@@ -175,6 +175,23 @@ public class PhotosMoveCopyController {
     			error.setContentText("Selected Album Has This Photo!");
     			error.show();
     			return;
+    		} else {
+    			//then the move was successful, and we will go back to the album list of the source Album
+    			try {
+        			Stage stage = new Stage();
+        			FXMLLoader loader = new FXMLLoader();
+        			loader.setLocation(getClass().getResource("/PhotosView/PhotoAlbum.fxml"));
+        			AnchorPane rootLayout = (AnchorPane) loader.load();
+        			
+        			Scene scene = new Scene(rootLayout);
+        			
+        			stage.setScene(scene);
+        			((Node)event.getSource()).getScene().getWindow().hide();
+        			stage.show();	
+        			
+        		} catch (IOException m) {
+        			m.printStackTrace();
+        		}
     		}
     	}
     }

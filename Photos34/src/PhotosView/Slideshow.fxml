@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="413.0" prefWidth="528.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PhotosView.SlideshowController">
+<AnchorPane prefHeight="413.0" prefWidth="528.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PhotosView.SlideshowController">
    <children>
       <ImageView fx:id="images" fitHeight="252.0" fitWidth="396.0" layoutX="66.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="exit" layoutX="196.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="28.0" prefWidth="107.0" text="Exit Slideshow">
+      <Button fx:id="exit" layoutX="196.0" layoutY="14.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="30.0" prefWidth="133.0" text="Exit Slideshow">
          <font>
             <Font size="14.0" />
          </font>

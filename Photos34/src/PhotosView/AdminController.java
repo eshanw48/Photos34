@@ -125,6 +125,14 @@ public class AdminController implements Initializable {
 		}
 		
 		User selectedAlbum = users.getSelectionModel().getSelectedItem();  // gets selected album
+		if (selectedAlbum.toString().equals("stock")) {
+			//then delete shouldnt be allowed
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Delete Error");
+			error.setContentText("Cannot Delete Stock Album!");
+			error.show();
+			return;
+		}
 		
 		int i = 0;
 		for(User u: usersList) {  // finds album in observable list

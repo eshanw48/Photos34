@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="410.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PhotosView.PhotoSearchController">
+<AnchorPane prefHeight="410.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PhotosView.PhotoSearchController">
    <children>
       <Button fx:id="exit" layoutX="626.0" layoutY="7.0" mnemonicParsing="false" onAction="#exitButton" prefHeight="28.0" prefWidth="107.0" text="Exit Photos">
          <font>
@@ -25,7 +25,7 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="340.0" layoutY="141.0" prefHeight="58.0" prefWidth="172.0" text="Search Results:">
+      <Label layoutX="340.0" layoutY="141.0" prefHeight="45.0" prefWidth="172.0" text="Search Results:">
          <font>
             <Font size="19.0" />
          </font>
@@ -35,45 +35,45 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <RadioButton fx:id="dateRange" layoutX="146.0" layoutY="120.0" mnemonicParsing="false" onAction="#dateRangeButton" />
-      <Label layoutX="14.0" layoutY="117.0" prefHeight="24.0" prefWidth="144.0" text="By Date Range:">
+      <RadioButton fx:id="dateRange" layoutX="146.0" layoutY="120.0" mnemonicParsing="false" />
+      <Label layoutX="14.0" layoutY="117.0" prefHeight="28.0" prefWidth="127.0" text="By Date Range:">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="14.0" layoutY="146.0" prefHeight="24.0" prefWidth="144.0" text="Start Date:">
+      <Label layoutX="14.0" layoutY="146.0" prefHeight="28.0" prefWidth="88.0" text="Start Date:">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
       <TextField fx:id="StartDate" layoutX="108.0" layoutY="145.0" prefHeight="27.0" prefWidth="127.0" text="mm/dd/yy" />
-      <Label layoutX="14.0" layoutY="177.0" prefHeight="24.0" prefWidth="144.0" text="End Date:">
+      <Label layoutX="14.0" layoutY="177.0" prefHeight="28.0" prefWidth="88.0" text="End Date:">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
       <TextField fx:id="EndDate" layoutX="107.0" layoutY="176.0" prefHeight="27.0" prefWidth="127.0" text="mm/dd/yy" />
-      <Label layoutX="14.0" layoutY="222.0" prefHeight="24.0" prefWidth="163.0" text="By Tag and Value:">
+      <Label layoutX="14.0" layoutY="222.0" prefHeight="28.0" prefWidth="151.0" text="By Tag and Value:">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <RadioButton fx:id="tagAndValue" layoutX="165.0" layoutY="225.0" mnemonicParsing="false" onAction="#tagAndValueButton" />
-      <Label layoutX="5.0" layoutY="250.0" prefHeight="24.0" prefWidth="163.0" text="Tag/Value 1:">
+      <RadioButton fx:id="tagAndValue" layoutX="172.0" layoutY="227.0" mnemonicParsing="false" />
+      <Label layoutX="5.0" layoutY="250.0" prefHeight="28.0" prefWidth="107.0" text="Tag/Value 1:">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
       <TextField fx:id="Tag1" layoutX="110.0" layoutY="249.0" prefHeight="27.0" prefWidth="97.0" text="Tag 1" />
       <TextField fx:id="Value1" layoutX="212.0" layoutY="249.0" prefHeight="27.0" prefWidth="97.0" text="Value 1" />
-      <Label layoutX="14.0" layoutY="287.0" prefHeight="24.0" prefWidth="82.0" text="And:">
+      <Label layoutX="14.0" layoutY="287.0" prefHeight="28.0" prefWidth="41.0" text="And:">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
       <TextField fx:id="Tag2" layoutX="122.0" layoutY="318.0" prefHeight="27.0" prefWidth="97.0" text="Tag 2" />
-      <RadioButton fx:id="and" layoutX="56.0" layoutY="290.0" mnemonicParsing="false" onAction="#andButton" />
-      <Label fx:id="Tag2" layoutX="14.0" layoutY="319.0" prefHeight="24.0" prefWidth="163.0" text="Tag/Value 2:">
+      <RadioButton fx:id="and" layoutX="70.0" layoutY="292.0" mnemonicParsing="false" />
+      <Label layoutX="14.0" layoutY="319.0" prefHeight="28.0" prefWidth="107.0" text="Tag/Value 2:">
          <font>
             <Font size="19.0" />
          </font>
@@ -85,22 +85,22 @@
          </font>
       </Button>
       <ListView fx:id="searchResults" layoutX="340.0" layoutY="187.0" prefHeight="200.0" prefWidth="200.0" />
-      <Label layoutX="561.0" layoutY="129.0" prefHeight="58.0" prefWidth="172.0" text="Album Name:">
+      <Label layoutX="565.0" layoutY="130.0" prefHeight="58.0" prefWidth="172.0" text="Album Name:">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <TextField fx:id="AlbumName" layoutX="556.0" layoutY="193.0" prefHeight="58.0" prefWidth="163.0" />
-      <Button fx:id="createAlbum" layoutX="551.0" layoutY="277.0" mnemonicParsing="false" onAction="#createAlbumButton" prefHeight="84.0" prefWidth="192.0" text="Create Album From Search Results">
+      <TextField fx:id="AlbumName" layoutX="565.0" layoutY="193.0" prefHeight="58.0" prefWidth="163.0" />
+      <Button fx:id="createAlbum" alignment="BASELINE_LEFT" layoutX="565.0" layoutY="277.0" mnemonicParsing="false" onAction="#createAlbumButton" prefHeight="84.0" prefWidth="163.0" text="Create Album From Results">
          <font>
             <Font size="12.0" />
          </font>
       </Button>
-      <Label layoutX="187.0" layoutY="287.0" prefHeight="24.0" prefWidth="82.0" text="Or:">
+      <Label layoutX="187.0" layoutY="287.0" prefHeight="28.0" prefWidth="41.0" text="Or:">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <RadioButton fx:id="or" layoutX="216.0" layoutY="290.0" mnemonicParsing="false" onAction="#orButton" />
+      <RadioButton fx:id="or" layoutX="235.0" layoutY="292.0" mnemonicParsing="false" />
    </children>
 </AnchorPane>

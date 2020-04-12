@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="378.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PhotosView.PhotoDisplayController">
+<AnchorPane prefHeight="378.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PhotosView.PhotoDisplayController">
    <children>
       <Button fx:id="finalize" layoutX="26.0" layoutY="323.0" mnemonicParsing="false" onAction="#finalizeButton" prefHeight="41.0" prefWidth="145.0" text="Finalize Caption">
          <font>
@@ -31,12 +31,12 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Label layoutX="121.0" layoutY="35.0" prefHeight="80.0" prefWidth="314.0" text="Photo:">
+      <Label layoutX="121.0" layoutY="35.0" prefHeight="68.0" prefWidth="107.0" text="Photo:">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label layoutX="341.0" layoutY="49.0" prefHeight="80.0" prefWidth="314.0" text="Time:">
+      <Label layoutX="341.0" layoutY="49.0" prefHeight="80.0" prefWidth="56.0" text="Time:">
          <font>
             <Font size="19.0" />
          </font>
@@ -58,7 +58,7 @@
       </Button>
       <TextField fx:id="time" layoutX="402.0" layoutY="76.0" prefHeight="27.0" prefWidth="145.0" />
       <ListView fx:id="tags" layoutX="363.0" layoutY="150.0" prefHeight="134.0" prefWidth="204.0" />
-      <Label layoutX="360.0" layoutY="89.0" prefHeight="80.0" prefWidth="314.0" text="Tags And Values:">
+      <Label layoutX="360.0" layoutY="89.0" prefHeight="61.0" prefWidth="314.0" text="Tags And Values:">
          <font>
             <Font size="19.0" />
          </font>

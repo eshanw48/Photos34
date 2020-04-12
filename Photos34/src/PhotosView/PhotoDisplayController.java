@@ -110,6 +110,8 @@ public class PhotoDisplayController implements Initializable {
 		
 		String tag = tagHelper(photo, "add", key.getText(), value.getText());
 		
+		
+		
     }
     
 
@@ -304,7 +306,7 @@ public class PhotoDisplayController implements Initializable {
                     protected void updateItem(Tag p, boolean bln) {
                         super.updateItem(p, bln);
                         if (p != null) {
-                        	//tags.setItems(tagList);
+                        	setText("something is here");
                         	 
                         }
                         else if (p == null)

@@ -2,6 +2,7 @@ package PhotosView;
 
 import java.io.IOException;
 
+import app.Photo;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,10 +47,10 @@ public class PhotoSearchController {
     private TextField Value1;
 
     @FXML
-    private Label Tag2;
-
-    @FXML
     private RadioButton and;
+    
+    @FXML
+    private TextField Tag2;
 
     @FXML
     private TextField Value2;
@@ -58,7 +59,7 @@ public class PhotoSearchController {
     private Button search;
 
     @FXML
-    private ListView<?> searchResults;
+    private ListView<Photo> searchResults;
 
     @FXML
     private TextField AlbumName;
@@ -69,10 +70,7 @@ public class PhotoSearchController {
     @FXML
     private RadioButton or;
 
-    @FXML
-    void andButton(ActionEvent event) {
-
-    }
+    
 
     @FXML
     void backAlbumsButton(ActionEvent event) {
@@ -84,10 +82,7 @@ public class PhotoSearchController {
 
     }
 
-    @FXML
-    void dateRangeButton(ActionEvent event) {
-
-    }
+   
 
     @FXML
     void exitButton(ActionEvent event) {
@@ -118,20 +113,13 @@ public class PhotoSearchController {
 
     }
 
-    @FXML
-    void orButton(ActionEvent event) {
-
-    }
-
+  
     @FXML
     void searchButton(ActionEvent event) {
 
     }
 
-    @FXML
-    void tagAndValueButton(ActionEvent event) {
-
-    }
+   
 
 }
 
