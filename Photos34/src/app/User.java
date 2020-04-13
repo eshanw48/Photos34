@@ -99,7 +99,7 @@ public class User implements Serializable{
 			Album toConsider = albums.next();
 			if (toConsider.getEndDate().toLocalDate().compareTo(early.toLocalDate())<0 ) {
 				//then we skip this album
-			} else if (toConsider.getBeginDate().toLocalDate().compareTo(late.toLocalDate())>=0) {
+			} else if (toConsider.getBeginDate().toLocalDate().compareTo(late.toLocalDate())>0) {
 				//then we can skip this album too
 			} else {
 				//then we need to iterate through all the photos in this album and add matches

@@ -167,7 +167,14 @@ public class PhotoSearchController {
     			return;
 			
     	}
-    	if (results.isEmpty()) {
+    	if (results==null) {
+    		//we cant make an album out of empty search results
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Creation Error");
+			error.setContentText("Search Results Are Empty!");
+			error.show();
+			return;
+    	}  else if (results.isEmpty()) {
     		//we cant make an album out of empty search results
     		Alert error = new Alert(AlertType.ERROR);
 			error.setTitle("Creation Error");
@@ -258,6 +265,7 @@ public class PhotoSearchController {
     			LocalDate end = LocalDate.parse(EndDate.getText().trim(),format);
     			List<Photo> resulting = currUser.searchDate(start.atStartOfDay(), end.atStartOfDay());
     			results = FXCollections.observableArrayList(resulting);
+    			searchResults.setItems(results);
     			searchResults.refresh();
     			return;
     		} catch (Exception e) {
@@ -290,6 +298,7 @@ public class PhotoSearchController {
     		if (Tag2.getText().trim().isEmpty()) {
     			List<Photo> resulting = currUser.searchTag(Tag1.getText(), Value1.getText());
     			results=FXCollections.observableArrayList(resulting);
+    			searchResults.setItems(results);
     			searchResults.refresh();
     			return;
     			
@@ -307,6 +316,7 @@ public class PhotoSearchController {
     			try {
     				List<Photo> resulting = currUser.searchTag(Tag1.getText(), Value1.getText(),Tag2.getText(),Value2.getText(),true);
     				results = FXCollections.observableArrayList(resulting);
+    				searchResults.setItems(results);
     				searchResults.refresh();
     			} catch (Exception e) {
     				//then the tag doesnt support multiple values
@@ -322,6 +332,7 @@ public class PhotoSearchController {
     			try {
     				List<Photo> resulting = currUser.searchTag(Tag1.getText(), Value1.getText(),Tag2.getText(),Value2.getText(),false);
     				results = FXCollections.observableArrayList(resulting);
+    				searchResults.setItems(results);
     				searchResults.refresh();
     			} catch (Exception e) {
     				//then the tag doesnt support multiple values
