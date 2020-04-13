@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="378.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PhotosView.PhotoDisplayController">
+<AnchorPane prefHeight="378.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PhotosView.PhotoDisplayController">
    <children>
       <Button fx:id="finalize" layoutX="26.0" layoutY="323.0" mnemonicParsing="false" onAction="#finalizeButton" prefHeight="41.0" prefWidth="145.0" text="Finalize Caption">
          <font>
@@ -57,22 +57,24 @@
          </font>
       </Button>
       <TextField fx:id="time" layoutX="402.0" layoutY="76.0" prefHeight="27.0" prefWidth="145.0" />
-      <ListView fx:id="tags" layoutX="324.0" layoutY="150.0" prefHeight="161.0" prefWidth="243.0" />
-      <Label layoutX="360.0" layoutY="89.0" prefHeight="61.0" prefWidth="314.0" text="Tags And Values:">
+      <ListView fx:id="tags" layoutX="330.0" layoutY="149.0" prefHeight="161.0" prefWidth="230.0" />
+      <Label layoutX="400.0" layoutY="108.0" prefHeight="41.0" prefWidth="162.0" text="Tags And Values:">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Button fx:id="add" layoutX="323.0" layoutY="323.0" mnemonicParsing="false" onAction="#addButton" prefHeight="41.0" prefWidth="116.0" text="Add Key/Value">
+      <Button fx:id="add" layoutX="332.0" layoutY="320.0" mnemonicParsing="false" onAction="#addButton" prefHeight="41.0" prefWidth="73.0" text="Add Tag">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="remove" layoutX="449.0" layoutY="323.0" mnemonicParsing="false" onAction="#removeButton" prefHeight="41.0" prefWidth="116.0" text="Remove Value">
+      <Button fx:id="remove" layoutX="562.0" layoutY="167.0" mnemonicParsing="false" onAction="#removeButton" prefHeight="41.0" prefWidth="116.0" text="Remove Value">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
       <ImageView fx:id="images" fitHeight="187.0" fitWidth="278.0" layoutX="14.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="removeTag" layoutX="413.0" layoutY="320.0" mnemonicParsing="false" onAction="#removeTag" prefHeight="41.0" prefWidth="92.0" text="Remove Tag" />
+      <Button fx:id="addValue" layoutX="562.0" layoutY="240.0" mnemonicParsing="false" onAction="#addValue" prefHeight="49.0" prefWidth="107.0" text="Add Value" />
    </children>
 </AnchorPane>

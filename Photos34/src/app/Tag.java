@@ -28,11 +28,10 @@ public class Tag implements Serializable{
 	 * @param value String that represents the first value associated with the tag.
 	 * @param multipleValues Boolean that represents if the tag can take multiple values or not.
 	 */
-	public Tag(String name,String value, boolean multipleValues)
+	public Tag(String name, boolean multipleValues)
 	{
 		this.name = name.trim().toLowerCase();
 		this.values=new ArrayList<String>();
-		this.values.add(value.trim().toLowerCase());
 		this.multipleValues=multipleValues;
 	}
 	

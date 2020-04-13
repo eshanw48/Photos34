@@ -22,9 +22,46 @@ public class User implements Serializable{
 	List<Photo> userPhotos = new ArrayList<Photo>();
 	*/
 	
+	//every tag that this user has in their list
+	private List<Tag> availableTags = new ArrayList<Tag>();
+	
 	public User(String userName) { // User constructor
 		
 		this.userName = userName;
+		this.availableTags.add(new Tag("person",true));
+		this.availableTags.add(new Tag("location",false));
+	}
+	
+	public List<Tag> getAvailableTags(){
+		return this.availableTags;
+	}
+	
+	public boolean addAvailableTag(String tagName,boolean isMultiple) {
+		Iterator<Tag> tags = availableTags.iterator();
+		while(tags.hasNext()) {
+			Tag consider = tags.next();
+			if (consider.getName().equals(tagName.trim().toLowerCase())) {
+				//then we have a repeat
+				return false;
+			}
+		}
+		//then we dont have a duplicate
+		this.availableTags.add(new Tag(tagName.trim().toLowerCase(),isMultiple));
+		return true;
+	}
+	
+	public boolean removeAvailableTag(String tagName) {
+		Iterator<Tag> tags = availableTags.iterator();
+		while(tags.hasNext()) {
+			Tag consider = tags.next();
+			if (consider.getName().equals(tagName.trim().toLowerCase())) {
+				//then we remove this
+				tags.remove();
+				return true;
+			}
+		}
+		//then we dont have a match
+		return false;
 	}
 	
 	public String toString() {

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import app.Album;
 import app.Persistance;
 import app.Photo;
 import app.Tag;
@@ -78,13 +79,45 @@ public class PhotoDisplayController implements Initializable {
     @FXML
     private Button remove;
     
-    private ObservableList<Tag> tagList;
+    @FXML
+    private Button removeTag;
     
-    private static boolean location = true; //ensures user only tags 1 location per photo
+    @FXML
+    private Button addValue;
+    
+    private static ObservableList<Tag> tagList;
+    
+    //this is already handled by the tag isMultiple value
+    //private static boolean location = true; //ensures user only tags 1 location per photo
 
     @FXML
     void addButton(ActionEvent event) {
-    	
+    	//we should go to tag scene so user can select from preselected tags or make their own
+    	try {
+			Stage stage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/PhotosView/tagView.fxml"));
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+			
+			Scene scene = new Scene(rootLayout);
+			
+			stage.setScene(scene);
+			((Node)event.getSource()).getScene().getWindow().hide();
+			stage.show();	
+			
+		} catch (IOException m) {
+			m.printStackTrace();
+		}
+    	/*
+    	User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		Album opened = currentUser.getAlbum(UserController.getOpenAlbumIndex());
+		Photo photo = opened.getPhoto(PhotoAlbumController.getOpenPhotoIndex());
+		
+		tagList = FXCollections.observableArrayList(photo.getPhotoTags());
+		tags.setItems(tagList);
+		tags.refresh();
+    	*/
+    	/*
     	Photo[] temp;
 		Photo photo;		
 			
@@ -128,11 +161,53 @@ public class PhotoDisplayController implements Initializable {
 			tags.setItems(tagList);
 			tags.refresh();
 		
-		
+	*/	
 		
 		
     }
-		tags.refresh();
+		
+    
+    @FXML
+    void addValue(ActionEvent event) {
+    	if (tagList.isEmpty()) {
+			//then no tag to remove values from
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Tag Error");
+			error.setContentText("Photo's Tag List is Empty!");
+			error.show();
+			return;
+		}
+		
+		
+		//now we show dialogue popup to remove a value
+		TextInputDialog dialog = new TextInputDialog("Value");
+		dialog.setTitle("Value Input Dialog");
+		//dialog.setHeaderText("Look, a Text Input Dialog");
+		dialog.setContentText("Please enter the value to add:");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		String valueToAdd;
+		if (result.isPresent()){
+		    System.out.println("Your name: " + result.get());
+		    valueToAdd=result.get();
+		} else {
+			//then user cancelled
+			return;
+		}
+		
+		if (tags.getSelectionModel().getSelectedItem().addValue(valueToAdd.trim().toLowerCase())) {
+			//then value successfully added
+			tags.refresh();
+		} else {
+			//then value is a duplicate or tag can only accept 1 value
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Value Error");
+			error.setContentText("Tag Has Value Or Cannot Take More Values!");
+			error.show();
+			return;
+			
+		}
     }
 
     
@@ -160,7 +235,42 @@ public class PhotoDisplayController implements Initializable {
 
     @FXML
     void copyButton(ActionEvent event) {
+    	if (Persistance.getUser(LoginController.getUserIndex()).toString().equals("stock")){
+    		//we cant change the stock albums
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Stock Error");
+			error.setContentText("Use copy for Stock instead of move!");
+			error.show();
+			return;
+    	}
+    	//initiates screen to move photo to a different album
+    	if (Persistance.getUser(LoginController.getUserIndex()).getAlbums().size()==1) {
+    		//then we cant move this to another album
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Move Error");
+			error.setContentText("No Other Albums To Copy To!");
+			error.show();
+			return;
+    	}
     	
+    	try {
+    		
+    		PhotoAlbumController.copyOrMove=true;
+    		PhotosMoveCopyController.setAlbumOrDisplay(false);
+    		
+			Stage stage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/PhotosView/PhotosMoveCopy.fxml"));
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+			
+			Scene scene = new Scene(rootLayout);
+			
+			stage.setScene(scene);
+			((Node)event.getSource()).getScene().getWindow().hide();
+			stage.show();	
+    	} catch(IOException e) {
+    		e.printStackTrace();
+    	}
     	
 
     }
@@ -178,11 +288,24 @@ public class PhotoDisplayController implements Initializable {
     @FXML
     void finalizeButton(ActionEvent event) {
     	
-    	Photo[] temp;
-		Photo photo;		
+    	//Photo[] temp;
+		//Photo photo;		
 			
 		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		Album opened = currentUser.getAlbum(UserController.getOpenAlbumIndex());
+		Photo displayed = opened.getPhoto(PhotoAlbumController.getOpenPhotoIndex());
 		
+		if (caption.getText().trim().isEmpty()) {
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Caption Error");
+			error.setContentText("Please Fill Out The Caption!");
+			error.show();
+			return;
+		} else {
+			displayed.setCaption(caption.getText().trim());
+		}
+		
+		/*
 		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
 		
 		List<Photo> photoList = new ArrayList<>();
@@ -202,7 +325,7 @@ public class PhotoDisplayController implements Initializable {
     	caption.setText(toChange.getCaption());
     	
     	tags.refresh();
-
+		*/
     }
 
     @FXML
@@ -228,15 +351,99 @@ public class PhotoDisplayController implements Initializable {
 
     @FXML
     void moveButton(ActionEvent event) {
-
+    	if (Persistance.getUser(LoginController.getUserIndex()).toString().equals("stock")){
+    		//we cant change the stock albums
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Stock Error");
+			error.setContentText("Use copy for Stock instead of move!");
+			error.show();
+			return;
+    	}
+    	//initiates screen to move photo to a different album
+    	if (Persistance.getUser(LoginController.getUserIndex()).getAlbums().size()==1) {
+    		//then we cant move this to another album
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Move Error");
+			error.setContentText("No Other Albums To Move To!");
+			error.show();
+			return;
+    	}
+    	
+    	try {
+    		
+    		PhotoAlbumController.copyOrMove=false;
+    		PhotosMoveCopyController.setAlbumOrDisplay(false);
+    		
+			Stage stage = new Stage();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/PhotosView/PhotosMoveCopy.fxml"));
+			AnchorPane rootLayout = (AnchorPane) loader.load();
+			
+			Scene scene = new Scene(rootLayout);
+			
+			stage.setScene(scene);
+			((Node)event.getSource()).getScene().getWindow().hide();
+			stage.show();	
+    	} catch(IOException e) {
+    		e.printStackTrace();
+    	}
     }
 
     @FXML
     void removeButton(ActionEvent event) {
     	
-    	Photo[] temp;
-		Photo photo;		
+    //	Photo[] temp;
+	//	Photo photo;		
+		
+		if (tagList.isEmpty()) {
+			//then no tag to remove values from
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Tag Error");
+			error.setContentText("Photo's Tag List is Empty!");
+			error.show();
+			return;
+		}
+		
+		if (tags.getSelectionModel().getSelectedItem().noTags()) {
+			//then the selected tag has no values
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Value Error");
+			error.setContentText("Tag has No Values to Remove!");
+			error.show();
+			return;
+		}
+		
+		//now we show dialogue popup to remove a value
+		TextInputDialog dialog = new TextInputDialog("Value");
+		dialog.setTitle("Value Input Dialog");
+		//dialog.setHeaderText("Look, a Text Input Dialog");
+		dialog.setContentText("Please enter the value to delete:");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		String valueToRemove;
+		if (result.isPresent()){
+		    System.out.println("Your name: " + result.get());
+		    valueToRemove=result.get();
+		} else {
+			//then user cancelled
+			return;
+		}
+		
+		if (tags.getSelectionModel().getSelectedItem().removeValue(valueToRemove.trim().toLowerCase())) {
+			//then value successfully removed
+			tags.refresh();
+		} else {
+			//then value not found
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Value Error");
+			error.setContentText("Tag Does not Have This Value!");
+			error.show();
+			return;
 			
+		}
+			
+		/*
 		User currentUser = Persistance.getUser(LoginController.getUserIndex());
 		
 		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
@@ -279,6 +486,7 @@ public class PhotoDisplayController implements Initializable {
 		
 			photo.removeTag(tag);
 			tags.refresh();
+		*/
 		}
 		
 
@@ -288,10 +496,17 @@ public class PhotoDisplayController implements Initializable {
     	//this is just to reset the caption in case the user wants to cancel their edit or makes changes by mistake
     	
 
-    	Photo[] temp;
-		Photo photo;		
+    	//Photo[] temp;
+		//Photo photo;		
 			
+		
+		
 		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		Album opened = currentUser.getAlbum(UserController.getOpenAlbumIndex());
+		Photo displayed = opened.getPhoto(PhotoAlbumController.getOpenPhotoIndex());
+		caption.setText(displayed.getCaption());
+		
+		/*
 		
 		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
 		
@@ -305,18 +520,20 @@ public class PhotoDisplayController implements Initializable {
 		temp = photoList.toArray(new Photo[0]);
 		
 		photo = temp[PhotoAlbumController.photoIndex];
+    	*/
     	
-    	caption.setText(photo.getCaption());
 
     }
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		Photo[] temp;
-		Photo photo;		
+		//Photo[] temp;
+		//Photo photo;		
 			
 		User currentUser = Persistance.getUser(LoginController.getUserIndex());
-		
+		Album opened = currentUser.getAlbum(UserController.getOpenAlbumIndex());
+		Photo photo = opened.getPhoto(PhotoAlbumController.getOpenPhotoIndex());
+		/*
 		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
 		
 		List<Photo> photoList = new ArrayList<>();
@@ -329,15 +546,21 @@ public class PhotoDisplayController implements Initializable {
 		temp = photoList.toArray(new Photo[0]);
 		
 		photo = temp[PhotoAlbumController.photoIndex];
+		*/
 		
 		tagList = FXCollections.observableArrayList(photo.getPhotoTags());
+	//	System.out.println(tagList.get(0));
 		tags.setItems(tagList);
 	
 		
 		Image display = new Image(photo.getLocation());
 		images.setImage(display);
-			
-		time.setText(photo.getPhotoDate().toString());
+		String mon = photo.getPhotoDate().getMonth().toString().substring(0,3);
+		//day of month
+		String day = ""+photo.getPhotoDate().getDayOfMonth();
+		//last two digits of year
+		String year = ""+(photo.getPhotoDate().getYear()%100);
+		time.setText(mon+"-"+day+"-"+year);
 		time.setEditable(false);
 		
 		caption.setText(photo.getCaption());
@@ -352,7 +575,7 @@ public class PhotoDisplayController implements Initializable {
                     protected void updateItem(Tag p, boolean bln) {
                         super.updateItem(p, bln);
                         if (p != null) {
-                        	setText("something is here");
+                        	setText(p.toString());
                         	 
                         }
                         else if (p == null)
@@ -370,16 +593,33 @@ public class PhotoDisplayController implements Initializable {
             }
     	});
     	
-    	//setting up listener for our listview
-		tags.getSelectionModel().selectedItemProperty().addListener( 
-    			(obs,oldVal,newVal) -> showPhoto()
-    			);
     	
-    	if (!photoList.isEmpty()) {
+    	if (!tagList.isEmpty()) {
     		//select 1st item if list is not null
     		tags.getSelectionModel().select(0);
     	}
 		
+	}
+	
+	@FXML
+	public void removeTag(ActionEvent event) {
+		if (tagList.isEmpty()) {
+			//no tag to remove
+			Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Delete Error");
+			error.setContentText("Tag List is Empty!");
+			error.show();
+			return;
+		}
+		
+		//removing tag from photo
+		User currentUser = Persistance.getUser(LoginController.getUserIndex());
+		Album opened = currentUser.getAlbum(UserController.getOpenAlbumIndex());
+		Photo photo = opened.getPhoto(PhotoAlbumController.getOpenPhotoIndex());
+		
+		photo.removeTag(tags.getSelectionModel().getSelectedItem().getName());
+		tagList.remove(tags.getSelectionModel().getSelectedIndex());
+		tags.refresh();
 	}
 		
 	
@@ -461,30 +701,7 @@ public class PhotoDisplayController implements Initializable {
 	}
 	
 
-    private void showPhoto() {
     
-    	Photo[] temp;
-		Photo photo;		
-			
-		User currentUser = Persistance.getUser(LoginController.getUserIndex());
-		
-		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
-		
-		List<Photo> photoList = new ArrayList<>();
-		
-		while(photoIter.hasNext())
-		{
-			photoList.add(photoIter.next());
-		}
-		
-		temp = photoList.toArray(new Photo[0]);
-		
-		photo = temp[PhotoAlbumController.photoIndex];
-		
-		caption.setText(photo.getCaption());
-		
-		tags.setItems(tagList);
-    	}
-    }
+ }
 
 

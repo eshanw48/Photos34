@@ -67,9 +67,9 @@ public class Photo implements Serializable , Comparable<Photo>{
 	 * @param multipleValues  Boolean representing if the tag is allowed to have multiple values or not.
 	 * @return returns true if the tag was successfully added. False otherwise.
 	 */
-	public boolean addTag(String name, String value,boolean multipleValues)
+	public boolean addTag(String name, boolean multipleValues)
 	{
-		Tag possibleAdd = new Tag(name,value,multipleValues);
+		Tag possibleAdd = new Tag(name,multipleValues);
 		for (Iterator<Tag> i = photoTags.iterator(); i.hasNext();)
 		{
 			Tag element = i.next();

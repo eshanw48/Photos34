@@ -295,7 +295,7 @@ public class PhotoSearchController {
     			error.show();
     			return;
     		}
-    		if (Tag2.getText().trim().isEmpty()) {
+    		if (Tag2.getText().trim().isEmpty() || Tag2.getText().trim().equals("Tag 2")) {
     			List<Photo> resulting = currUser.searchTag(Tag1.getText(), Value1.getText());
     			results=FXCollections.observableArrayList(resulting);
     			searchResults.setItems(results);
