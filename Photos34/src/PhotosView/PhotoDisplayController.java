@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import app.Persistance;
@@ -23,9 +24,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -106,13 +110,37 @@ public class PhotoDisplayController implements Initializable {
 		
 		photo = temp[PhotoAlbumController.photoIndex];
 		
+		String tag = tagHelper("add");
 		
+		if (tag != null)
+		{
+			
+			String[] args = tag.split("~");
+			
+		//	if(photo.addTag(args[0], args[1], false))
+			{
+			//	photo.setPhotoTags(tagList);
+			//	tagList.add(tag); //ADD  TO LISTVIEW 
+				//tags.refresh();
+				
+				
+		//	} else {
+				Alert error = new Alert(AlertType.ERROR);
+				error.setTitle("Same Tag Error");
+				error.setContentText("Duplicate tag detected. Tag not added.");
+			}
+		//	photo.setPhotoTags(tagList);
+			tagList.add(photo.getTag(tag));
+			tags.setItems(tagList);
+			tags.refresh();
 		
-		String tag = tagHelper(photo, "add", key.getText(), value.getText());
 		
 		
 		
     }
+		tags.refresh();
+    }
+
     
 
     @FXML
@@ -177,7 +205,9 @@ public class PhotoDisplayController implements Initializable {
     	Photo toChange = photo;
     	toChange.setCaption(caption.getText().trim());
     	
-    	caption.setText(photo.getCaption());
+    	caption.setText(toChange.getCaption());
+    	
+    	tags.refresh();
 
     }
 
@@ -218,6 +248,8 @@ public class PhotoDisplayController implements Initializable {
 		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
 		
 		List<Photo> photoList = new ArrayList<>();
+		
+		Alert error = new Alert(AlertType.ERROR);
 			
 		
 		while(photoIter.hasNext())
@@ -229,14 +261,32 @@ public class PhotoDisplayController implements Initializable {
 		
 		photo = temp[PhotoAlbumController.photoIndex];
 		
+		String tag = tagHelper("delete");
 		
-		
-		String tag = tagHelper(photo, "delete", key.getText(), value.getText());
-		
-	
-		}
+		if (tag != null)
+		{
+			
+			
+			String[] args = tag.split("~");
+			
+			
+			
 
-    
+		//	if(photo.removeTag(args[0], args[1]))
+		//	{
+				photo.removeTag(tag);
+				
+				
+					tags.refresh();
+		//	} else {
+				error.setTitle("Invalid Tag Error");
+				error.setContentText("Entered tag does not exist.");
+			}
+		
+			photo.removeTag(tag);
+			tags.refresh();
+		}
+		
 
     @FXML
     void restoreButton(ActionEvent event) {
@@ -296,6 +346,8 @@ public class PhotoDisplayController implements Initializable {
 		time.setText(photo.getPhotoDate().toString());
 		time.setEditable(false);
 		
+		caption.setText(photo.getCaption());
+		
 		tags.setCellFactory(new Callback<ListView<Tag>, ListCell<Tag>>(){
     		@Override
     		 public ListCell<Tag> call(ListView<Tag> p) {
@@ -338,57 +390,81 @@ public class PhotoDisplayController implements Initializable {
 		
 	
 	
-	public static String tagHelper(Photo p, String operation, String type, String value)
+	public static String tagHelper(String operation)
 	{
 		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Tag Editing");
+		alert.setHeaderText("Tag Type");
 		
+		ButtonType personButton = new ButtonType("Person");
+		ButtonType locationButton = new ButtonType("Location");
+		ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		
+		alert.getButtonTypes().setAll(personButton, locationButton, cancelButton);
 		
 		if (operation == "add")
 		{
-			
+			alert.setContentText("Select the type of tag you want to add.");
 
-		
-			if (type.equals("person") || (type.equals("Person")) || (type.equals("PERSON")) )
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == personButton)
 			{
-			    p.addTag(type, value, true);
-			} 
-			else if (value.equals("location") || (value.equals("Location")) || (value.equals("LOCATION" ))) {
-				
-				if(location)
+			    return editDialog("person");
+			} else if (result.get() == locationButton) {
+				return editDialog("location");
+			} else {
+			    
+			}
+		} else if (operation == "delete") {
+			alert.setContentText("Select the type of tag you want to delete.");
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == personButton)
+			{
+				return editDialog("person");
+			} else if (result.get() == locationButton) {
+				return editDialog("location");
+			} else {
+			    
+			}
+		}
+		
+		return null;
+	
+}
+	
+	public static String editDialog(String keyword)
+	{
+		TextInputDialog addDialog = new TextInputDialog();
+		Optional<String> result;
+		Alert error = new Alert(AlertType.ERROR);
+		
+		if (keyword == "person" || keyword == "location")
+		{
+			addDialog.setTitle("Tag Editing");
+			addDialog.setHeaderText("Add a " + keyword + " Tag");
+			addDialog.setContentText("Enter Tag:");
+			
+			result = addDialog.showAndWait();
+			
+			if(result.isPresent())
+			{
+				if(result.get().isEmpty())
 				{
-					p.addTag(type, value, false); //can add only one location
+					error.setTitle("Tag Input Error");
+					error.setContentText("No tag was entered. Please enter in a tag.");
+					
+					return null;
 				}
 				
-				location = false;
-				
-				
-				
-			} else {
-			     
+				return keyword + "~" + result.get().trim();
 			}
-			
 		} 
 		
-		else if (operation == "delete") {
-			
-			if (type.equals("person") || (type.equals("Person")) || (type.equals("PERSON")) )
-			{
-			   // p.removeTag();
-			} 
-			else if (value.equals("location") || (value.equals("Location")) || (value.equals("LOCATION" ))) {
-				
-				
-				
-		//		p.removeTag(); 
-				
-
-		
-		}
-		
-
-		}
 		return null;
-}
+		
+	}
 	
 
     private void showPhoto() {
