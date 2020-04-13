@@ -97,9 +97,9 @@ public class User implements Serializable{
 		while (albums.hasNext()) {
 			//if the latest date is earlier than early, or the earliest date later than late, then we can skip this
 			Album toConsider = albums.next();
-			if (toConsider.getEndDate().compareTo(early)<0 && toConsider.getEndDate().getDayOfMonth()!=early.getDayOfMonth()) {
+			if (toConsider.getEndDate().toLocalDate().compareTo(early.toLocalDate())<0 ) {
 				//then we skip this album
-			} else if (toConsider.getBeginDate().compareTo(late)>=0 && toConsider.getBeginDate().getDayOfMonth()!=late.getDayOfMonth()) {
+			} else if (toConsider.getBeginDate().toLocalDate().compareTo(late.toLocalDate())>=0) {
 				//then we can skip this album too
 			} else {
 				//then we need to iterate through all the photos in this album and add matches
@@ -113,7 +113,7 @@ public class User implements Serializable{
 				}
 			}
 		}
-		return results;
+		return removeDuplicate(results);
 	}
 	
 	
@@ -143,7 +143,7 @@ public class User implements Serializable{
 				}
 			}
 		}
-		return results;
+		return removeDuplicate(results);
 	}
 	
 	public List<Photo> searchTag(String tag1, String val1, String tag2, String val2, boolean orAnd) throws Exception{
@@ -170,11 +170,11 @@ public class User implements Serializable{
 							if (orAnd) {
 								//then we have or
 								 first.addAll(second);
-								 return first;
+								 return removeDuplicate(first);
 							} else {
 								//then we have AND
 								 first.retainAll(second);
-								 return first;
+								 return removeDuplicate(first);
 							}
 						} else {
 							//then this operation is not supported
@@ -196,12 +196,27 @@ public class User implements Serializable{
 		if (orAnd) {
 			//then we have or
 			 first.addAll(second);
-			 return first;
+			 return removeDuplicate(first);
 		} else {
 			//then we have AND
 			 first.retainAll(second);
-			 return first;
+			 return removeDuplicate(first);
 		}
+	}
+	
+	
+	public List<Photo> removeDuplicate(List<Photo> photos){
+		List<Photo> withoutDupe = new ArrayList<Photo>();
+		Iterator<Photo> orig = photos.iterator();
+		while (orig.hasNext()) {
+			Photo toConsider = orig.next();
+			if (withoutDupe.contains(toConsider)) {
+				//then we dont add
+			} else {
+				withoutDupe.add(toConsider);
+			}
+		}
+		return withoutDupe;
 	}
 	
 	
