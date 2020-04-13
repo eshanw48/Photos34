@@ -73,12 +73,6 @@ public class PhotoDisplayController implements Initializable {
     private ListView<Tag> tags;
 
     @FXML
-    private TextField key;
-
-    @FXML
-    private TextField value;
-
-    @FXML
     private Button add;
 
     @FXML
