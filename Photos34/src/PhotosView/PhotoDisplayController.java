@@ -102,8 +102,22 @@ public class PhotoDisplayController implements Initializable {
 			
 			Scene scene = new Scene(rootLayout);
 			
+			//try for popup
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setOnHidden(e-> {
+				User currentUser = Persistance.getUser(LoginController.getUserIndex());
+				Album opened = currentUser.getAlbum(UserController.getOpenAlbumIndex());
+				Photo photo = opened.getPhoto(PhotoAlbumController.getOpenPhotoIndex());
+				tagList = FXCollections.observableArrayList(photo.getPhotoTags());
+				tags.setItems(tagList);
+				if (!tagList.isEmpty()) {
+		    		//select 1st item if list is not null
+		    		tags.getSelectionModel().select(0);
+		    	}
+				});
+			
 			stage.setScene(scene);
-			((Node)event.getSource()).getScene().getWindow().hide();
+		//	((Node)event.getSource()).getScene().getWindow().hide();
 			stage.show();	
 			
 			
@@ -436,7 +450,7 @@ public class PhotoDisplayController implements Initializable {
 		Optional<String> result = dialog.showAndWait();
 		String valueToRemove;
 		if (result.isPresent()){
-		    System.out.println("Your name: " + result.get());
+		    //System.out.println("Your name: " + result.get());
 		    valueToRemove=result.get();
 		} else {
 			//then user cancelled

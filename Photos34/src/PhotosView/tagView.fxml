@@ -17,8 +17,7 @@
       <Label layoutX="111.0" layoutY="300.0" text="Tag Name:" />
       <RadioButton fx:id="multipleValuesRadio" layoutX="393.0" layoutY="300.0" mnemonicParsing="false" text="Multiple Values" />
       <Button fx:id="addToPhoto" layoutX="359.0" layoutY="346.0" mnemonicParsing="false" onAction="#addTagToPhoto" prefHeight="25.0" prefWidth="169.0" text="Add Selected Tag to Photo" />
-      <Button fx:id="exit" layoutX="473.0" layoutY="19.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="64.0" text="Exit" />
-      <Button fx:id="logout" layoutX="29.0" layoutY="18.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
-      <Button fx:id="back" layoutX="100.0" layoutY="19.0" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="92.0" text="Back to Photo" />
+      <Button fx:id="exit" layoutX="522.0" layoutY="19.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="64.0" text="Exit" />
+      <Button fx:id="back" layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="92.0" text="Back to Photo" />
    </children>
 </AnchorPane>

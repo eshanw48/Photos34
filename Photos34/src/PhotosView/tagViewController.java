@@ -52,9 +52,6 @@ public class tagViewController {
 	private Button exit;
 	
 	@FXML
-	private Button logout;
-	
-	@FXML
 	private Button back;
 	
 	private static ObservableList<Tag> usersTags;
@@ -193,61 +190,15 @@ public class tagViewController {
 	}
 	
 	@FXML
-	void logout(ActionEvent event) {
-		try {
-			Stage stage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/PhotosView/Login.fxml"));
-			AnchorPane rootLayout = (AnchorPane) loader.load();
-			
-			Scene scene = new Scene(rootLayout);
-			
-			stage.setScene(scene);
-			((Node)event.getSource()).getScene().getWindow().hide();
-			stage.show();	
-			
-		} catch (IOException m) {
-			m.printStackTrace();
-		}
-
-	}
-	
-	@FXML
-	void exit(ActionEvent event) throws IOException{
-		try {
-	    	Persistance.writeUser();
-	    	
-	    	Platform.exit();
-	    	System.exit(0);
-	    	} catch (IOException e) {
-	    		Alert error = new Alert(AlertType.ERROR);
-				error.setTitle("Save Error");
-				error.setContentText("Error Saving! Will Quit Without Saving!");
-				error.showAndWait();
-				
-				Platform.exit();
-		    	System.exit(0);
-				
-	    	}
+	void exit(ActionEvent event) {
+		//go back to photo page
+		((Node)(event.getSource())).getScene().getWindow().hide();
 	}
 	
 	@FXML
 	void back(ActionEvent event) {
-		try {
-			Stage stage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/PhotosView/PhotoDisplay.fxml"));
-			AnchorPane rootLayout = (AnchorPane) loader.load();
-			
-			Scene scene = new Scene(rootLayout);
-			
-			stage.setScene(scene);
-			((Node)event.getSource()).getScene().getWindow().hide();
-			stage.show();	
-			
-		} catch (IOException m) {
-			m.printStackTrace();
-		}
+		//go back to photo page
+		((Node)(event.getSource())).getScene().getWindow().hide();
 	}
 
 }
