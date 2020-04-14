@@ -48,20 +48,13 @@ public class tagViewController {
 	@FXML
 	private TextField valueField;
 	
-	@FXML
-	private Button exit;
-	
-	@FXML
-	private Button back;
-	
 	private static ObservableList<Tag> usersTags;
 	
 	public void initialize() {
 		//currUser
 		User currUser = Persistance.getUser(LoginController.getUserIndex());
 		usersTags = FXCollections.observableArrayList(currUser.getAvailableTags());
-		System.out.println(usersTags.get(0));
-		System.out.println(currUser);
+		
 		
 		
 		//cell factory for tags names and isMultiple
@@ -187,18 +180,6 @@ public class tagViewController {
 			error.show();
 			return;
 		}
-	}
-	
-	@FXML
-	void exit(ActionEvent event) {
-		//go back to photo page
-		((Node)(event.getSource())).getScene().getWindow().hide();
-	}
-	
-	@FXML
-	void back(ActionEvent event) {
-		//go back to photo page
-		((Node)(event.getSource())).getScene().getWindow().hide();
 	}
 
 }

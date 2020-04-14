@@ -37,6 +37,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 public class PhotoDisplayController implements Initializable {
@@ -104,6 +105,8 @@ public class PhotoDisplayController implements Initializable {
 			
 			//try for popup
 			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.initStyle(StageStyle.UTILITY);
+			stage.setTitle("Adding Tags");
 			stage.setOnHidden(e-> {
 				User currentUser = Persistance.getUser(LoginController.getUserIndex());
 				Album opened = currentUser.getAlbum(UserController.getOpenAlbumIndex());
@@ -205,7 +208,7 @@ public class PhotoDisplayController implements Initializable {
 		Optional<String> result = dialog.showAndWait();
 		String valueToAdd;
 		if (result.isPresent()){
-		    System.out.println("Your name: " + result.get());
+		  //System.out.println("Your name: " + result.get());
 		    valueToAdd=result.get();
 		} else {
 			//then user cancelled
