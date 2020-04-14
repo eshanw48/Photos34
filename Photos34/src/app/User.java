@@ -134,6 +134,10 @@ public class User implements Serializable{
 		while (albums.hasNext()) {
 			//if the latest date is earlier than early, or the earliest date later than late, then we can skip this
 			Album toConsider = albums.next();
+			if (toConsider.getEndDate()==null || toConsider.getBeginDate()==null) {
+				//then no photos, so we can skip
+				continue;
+			}
 			if (toConsider.getEndDate().toLocalDate().compareTo(early.toLocalDate())<0 ) {
 				//then we skip this album
 			} else if (toConsider.getBeginDate().toLocalDate().compareTo(late.toLocalDate())>0) {

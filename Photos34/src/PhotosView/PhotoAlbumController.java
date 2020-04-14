@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,6 +26,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 //import for file browser users need to pick their images for albums.
@@ -261,9 +264,13 @@ public class PhotoAlbumController {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("/PhotosView/PhotoDisplay.fxml"));
 		AnchorPane rootLayout = (AnchorPane) loader.load();
+		//GridPane rootLayout = (GridPane) loader.load();
 		
 		Scene scene = new Scene(rootLayout);
-		
+		/*
+		rootLayout.prefHeightProperty().bind(scene.heightProperty());
+		rootLayout.prefWidthProperty().bind(scene.widthProperty());
+		*/
 		stage.setScene(scene);
 		((Node)event.getSource()).getScene().getWindow().hide();
 		stage.show();	

@@ -2,7 +2,10 @@ package PhotosView;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.List;
 
 import app.Album;
@@ -268,7 +271,7 @@ public class PhotoSearchController {
     			searchResults.setItems(results);
     			searchResults.refresh();
     			return;
-    		} catch (Exception e) {
+    		} catch (DateTimeParseException e) {
     			//parse throws exception if date is not formatted correctly
     			Alert error = new Alert(AlertType.ERROR);
     			error.setTitle("Search Error");
