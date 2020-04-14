@@ -1,14 +1,12 @@
 package app;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import PhotosView.LoginController;
+
 
 
 /**
@@ -44,12 +42,13 @@ public class Album implements Serializable{
 	private int numOfPhotos;
 	
 	
-	/* We do not need date range, because when the user inputs a date range in the search, we will have to compare anyway
-	private String dateRange; 
-	*/
-	
 
 	
+
+	/**
+	 * Constructor that initializes our album.
+	 * @param albumName This is the desired name of our album.
+	 */
 	public Album(String albumName) {
 		this.photos=new ArrayList<Photo>();
 		
@@ -79,32 +78,34 @@ public class Album implements Serializable{
 		}
 	}
 	
+	/**
+	 * Setter for album name.
+	 * @param albumName String representing desired album name.
+	 */
 	public void setAlbumName(String albumName) {
 		
 		this.albumName = albumName;
 	}
 	
+	/**
+	 * Getter for album name.
+	 * @return Returns the string that represents the album name.
+	 */
 	public String getAlbumName() {
 		
 		return albumName;
 	}
 	
+	/**
+	 * Getter for number of photos in our album.
+	 * @return Returns an integer that represents the number of photos in this album.
+	 */
 	public int getNumOfPhotos() {
 		
 		return numOfPhotos;
 	}
 	
-	// is there a reason for this method? its not apparent to me (users can only add or delete one photo at a time right?)
-	public void opNumOfPhotos(int num, char op)
-	{
-		if (op == '+')
-		{
-			numOfPhotos += num;
-		} else if (op == '-')
-		{
-			numOfPhotos -= num;
-		}
-	}
+	
 	
 	
 	/**
@@ -116,9 +117,7 @@ public class Album implements Serializable{
 	{
 		//User currentUser = Persistance.getUser(LoginController.getUserIndex());
 		Iterator<Photo> photoIter=this.photoIterator();
-		/* no need to add photo to a user. an album contains photos, and users contain albums
-		Iterator<Photo> photoIter = currentUser.userPhotos.iterator();
-		*/
+		
 		
 		Photo photoToAdd = null;
 		
@@ -132,13 +131,9 @@ public class Album implements Serializable{
 				
 				
 				
-				//p.setCaption(photoToAdd.caption);
-				//p.setTags("name", photoToAdd.getTags("name"));
-				//p.setTags("location", photoToAdd.getTags("location"));
 				
-			} /*else {
-				photoToAdd = null;
-			} */
+				
+			}
 		}
 		
 		this.photos.add(p);
@@ -154,19 +149,16 @@ public class Album implements Serializable{
 		numOfPhotos++;
 		return true;
 		
-		/*
-		if (photoToAdd != null)
-		{
-			photos.add(photoToAdd);
-		} else {
-			currentUser.userPhotos.add(p);
-			photos.add(p);
-		}
-		*/
+		
 		
 		
 	}
 	
+	/**
+	 * Getter for a specific photo in our album.
+	 * @param index Index of the photo to get.
+	 * @return Returns the desired Photo object at the index, or null if the index is invalid.
+	 */
 	public Photo getPhoto(int index) {
 		if (index<0 || index>=this.photos.size()) {
 			return null;
@@ -196,47 +188,7 @@ public class Album implements Serializable{
 		return false;
 		
 		
-		/* We shouldnt have photos for the user AND for the album. We can just access photos from the album directly
-		 	Also, it could be a pain having to synchronize the same photo with different attributes in different albums, since copies of the same photo could be in multiple albums.
-		User currentUser = Persistance.getUser(LoginController.getUserIndex());
-		int lastCopy = 0;
-		
-		photos.remove(p);
-		
-		
-		Iterator<Album> userAlbums = currentUser.albumIterator();
-		while(userAlbums.hasNext())
-		{
-			Album i = userAlbums.next();
-			Iterator<Photo> albumPhotos = i.photoIterator();
-			while (albumPhotos.hasNext())
-			{
-				Photo j = albumPhotos.next();
-				if (p.isEqual(j))
-				{
-					lastCopy = 1;
-					break;
-				}
-			}
-			
-			if (lastCopy == 1)
-			{
-				break;
-			}
-		}
-		
-		if (lastCopy == 0)
-		{
-			currentUser.userPhotos.remove(p);
-		}
-
-		if (numOfPhotos <= 0)
-		{
-			numOfPhotos = 0;
-		} else {
-			numOfPhotos--;
-		}
-		*/
+	
 	}
 	
 	/**
@@ -326,44 +278,58 @@ public class Album implements Serializable{
 		return two.addPhoto(p);
 	}
 	
+	/**
+	 * Getter for the begin date.
+	 * @return Returns the LocalDateTime instance associated with the earliest Photo in this Album. If Album is empty, this is null.
+	 */
 	public LocalDateTime getBeginDate() {
 		return beginDate;
 	}
 
+	/**
+	 * Setter for the beginDate.
+	 * @param beginDate This is the LocalDateTime instance we wish to set to our early date for the Album.
+	 */
 	public void setBeginDate(LocalDateTime beginDate) {
 		this.beginDate = beginDate;
 	}
 
+	/**
+	 * Getter for the end date.
+	 * @return Returns the LocalDateTime instance associated with the oldest photo in this Album. If Album is empty, this is null.
+	 */
 	public LocalDateTime getEndDate() {
 		return endDate;
 	}
 
+	/**
+	 * Setter for the end date.
+	 * @param endDate This is the desired end date LocalDateTime we wish to set for this Album.
+	 */
 	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
 
+	/**
+	 * Getter for photo iterator.
+	 * @return Returns an iterator that can iterate through the photos in this album.
+	 */
 	public Iterator<Photo> photoIterator() {
 		
 		return photos.iterator();
 	}
 	
-	public String getDateRange() {
-		
-		if(beginDate == null) {
-			
-			return " - ";
-		}
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		
-		return  sdf.format(beginDate) + " - " + sdf.format(endDate);
-	}
+	
 	
 	public String toString() {
 		
 		return String.format("%s %50s %s - %s", albumName,numOfPhotos,beginDate,endDate);
 }
 	
+	/**
+	 * Returns a list of photos in this ALbum.
+	 * @return Returns a list of the photos in this album, not null.
+	 */
 	public List<Photo> getPhotos(){
 		return this.photos;
 	}

@@ -8,7 +8,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-
+/**
+ * Class that runs our Photo Application. (Starts the UI logic in PhotosView Package).
+ * @author Eshan Wadhwa and Vishal Patel
+ *
+ */
 public class Photos extends Application {
 
     @Override

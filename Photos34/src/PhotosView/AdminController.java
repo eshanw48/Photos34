@@ -1,15 +1,8 @@
 package PhotosView;
 
-import java.io.BufferedReader;
-import java.io.File;
+
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
@@ -33,6 +26,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * UI controller which manages screen for the admin view of our photos app.
+ * @author Eshan Wadhwa and Vishal Patel.
+ *
+ */
 public class AdminController implements Initializable {
 
     @FXML
@@ -55,7 +53,10 @@ public class AdminController implements Initializable {
     
     private ObservableList<User> usersList;
     
-
+    /**
+     * Method to add a user to our list of users.
+     * @param event Event triggered by user pressing add button.
+     */
     @FXML
     void addButton(ActionEvent event) {
     	
@@ -117,6 +118,10 @@ public class AdminController implements Initializable {
 
     }
 
+    /**
+     * Method to delete a user from our list of users.
+     * @param event Event triggered by a user hitting the delete button.
+     */
     @FXML
     void deleteButton(ActionEvent event) {
     	if(usersList.isEmpty()) {  // if list empty; nothing to delete
@@ -163,13 +168,27 @@ public class AdminController implements Initializable {
     	
     }
 
+    /**
+     * Method to exit the photos application.
+     * @param event Event triggered by user hitting the exit button.
+     */
     @FXML
-    void exitButton(ActionEvent event) throws IOException {
-    	
+    void exitButton(ActionEvent event) {
+    	try {
     	Persistance.writeUser();
     	
     	Platform.exit();
     	System.exit(0);
+    	} catch (IOException e) {
+    		Alert error = new Alert(AlertType.ERROR);
+			error.setTitle("Save Error");
+			error.setContentText("Error Saving! Will Quit Without Saving!");
+			error.showAndWait();
+			
+			Platform.exit();
+	    	System.exit(0);
+			
+    	}
 
     }
 
@@ -214,43 +233,7 @@ public class AdminController implements Initializable {
 				}
 		   		
 		   	}
-	/*
-	private ArrayList<User> readFromFile(String filePathName)
-	{
-		   ArrayList <User> user = new ArrayList<User>();
-		   BufferedReader br;
-		   Path filePath = Paths.get(filePathName);
-		   try {
-	
-				if (!new File(filePathName).exists())
-				{
-				   return user;
-				}
-			   br = Files.newBufferedReader(filePath);
-			   String line = br.readLine();
-				
-			   while (line != null) { 
-		              
-				   String name = line;
-		  
-		               
-				   User temp = new User(name);
-				   user.add(temp);
-		               
-				   line = br.readLine(); 
-			   }
-			   
-			   br.close();
-			  
-				
-		   } catch (IOException e) {
-			   e.printStackTrace();
-		   }
-		return user;
-		      
-		  
-	}
-		*/
+
 	}
 
    

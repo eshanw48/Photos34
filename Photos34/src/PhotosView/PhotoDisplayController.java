@@ -35,6 +35,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -104,6 +105,7 @@ public class PhotoDisplayController implements Initializable {
 			stage.setScene(scene);
 			((Node)event.getSource()).getScene().getWindow().hide();
 			stage.show();	
+			
 			
 		} catch (IOException m) {
 			m.printStackTrace();
@@ -278,10 +280,21 @@ public class PhotoDisplayController implements Initializable {
     @FXML
     void exitButton(ActionEvent event) throws IOException {
     	
-    	Persistance.writeUser();
-    	
-    	Platform.exit();
-    	System.exit(0);
+    	try {
+        	Persistance.writeUser();
+        	
+        	Platform.exit();
+        	System.exit(0);
+        	} catch (IOException e) {
+        		Alert error = new Alert(AlertType.ERROR);
+    			error.setTitle("Save Error");
+    			error.setContentText("Error Saving! Will Quit Without Saving!");
+    			error.showAndWait();
+    			
+    			Platform.exit();
+    	    	System.exit(0);
+    			
+        	}
 
     }
 

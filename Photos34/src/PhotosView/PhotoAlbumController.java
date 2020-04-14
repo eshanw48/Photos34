@@ -284,10 +284,21 @@ public class PhotoAlbumController {
     @FXML
     void exitButton(ActionEvent event) throws IOException {
     	
-    	Persistance.writeUser();
-    	
-    	Platform.exit();
-    	System.exit(0);
+    	try {
+        	Persistance.writeUser();
+        	
+        	Platform.exit();
+        	System.exit(0);
+        	} catch (IOException e) {
+        		Alert error = new Alert(AlertType.ERROR);
+    			error.setTitle("Save Error");
+    			error.setContentText("Error Saving! Will Quit Without Saving!");
+    			error.showAndWait();
+    			
+    			Platform.exit();
+    	    	System.exit(0);
+    			
+        	}
 
     }
 

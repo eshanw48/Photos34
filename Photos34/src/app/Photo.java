@@ -63,7 +63,6 @@ public class Photo implements Serializable , Comparable<Photo>{
 	/**
 	 * Adds a tag to the list of tags associated with this photo.
 	 * @param name Name of the tag to add.
-	 * @param value First value associated with the tag.
 	 * @param multipleValues  Boolean representing if the tag is allowed to have multiple values or not.
 	 * @return returns true if the tag was successfully added. False otherwise.
 	 */
@@ -151,6 +150,10 @@ public class Photo implements Serializable , Comparable<Photo>{
 		return false;
 	}
 	
+	/**
+	 * Gets iterator for tags associated with this photo.
+	 * @return Returns an iterator that can iterate through the tags of this photo.
+	 */
 	public Iterator<Tag> tagIterator() {
 		
 		return photoTags.iterator();
@@ -179,7 +182,7 @@ public class Photo implements Serializable , Comparable<Photo>{
 	}
 
 	/**
-	 * Compareto implementation to compare two photos based on their localDateTime
+	 * CompareTo implementation to compare two photos based on their localDateTime
 	 */
 	public int compareTo(Photo other) {
 		
@@ -263,6 +266,11 @@ public class Photo implements Serializable , Comparable<Photo>{
 		return mon+"-"+day+"-"+year;
 	}
 	
+	/**
+	 * Helper method to get a Tag, if it exists, given its string name.
+	 * @param tag String of the tag we wish to get.
+	 * @return Returns the tag, if found. Otherwise, returns null.
+	 */
 	public Tag getTag(String tag) {
 		tag=tag.trim().toLowerCase();
 		Iterator<Tag> tags = this.tagIterator();

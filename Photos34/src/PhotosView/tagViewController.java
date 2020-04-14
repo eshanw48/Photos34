@@ -213,9 +213,22 @@ public class tagViewController {
 	}
 	
 	@FXML
-	void exit(ActionEvent event) {
-		Platform.exit();
-    	System.exit(0);
+	void exit(ActionEvent event) throws IOException{
+		try {
+	    	Persistance.writeUser();
+	    	
+	    	Platform.exit();
+	    	System.exit(0);
+	    	} catch (IOException e) {
+	    		Alert error = new Alert(AlertType.ERROR);
+				error.setTitle("Save Error");
+				error.setContentText("Error Saving! Will Quit Without Saving!");
+				error.showAndWait();
+				
+				Platform.exit();
+		    	System.exit(0);
+				
+	    	}
 	}
 	
 	@FXML

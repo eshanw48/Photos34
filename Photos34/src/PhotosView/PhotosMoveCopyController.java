@@ -165,6 +165,13 @@ public class PhotosMoveCopyController {
     			error.setContentText("Selected Album Has This Photo!");
     			error.show();
     			return;
+    		} else {
+    			//displaying confirmation message
+    			Alert error = new Alert(AlertType.INFORMATION);
+    			error.setTitle("Success!");
+    			error.setContentText("Photo Successfully Copied!");
+    			error.show();
+    			return;
     		}
     	} else {
     		//then we move
@@ -197,10 +204,22 @@ public class PhotosMoveCopyController {
     }
 
     @FXML
-    void exitButton(ActionEvent event) {
-    	
-    	Platform.exit();
-    	System.exit(0);
+    void exitButton(ActionEvent event) throws IOException{
+    	try {
+        	Persistance.writeUser();
+        	
+        	Platform.exit();
+        	System.exit(0);
+        	} catch (IOException e) {
+        		Alert error = new Alert(AlertType.ERROR);
+    			error.setTitle("Save Error");
+    			error.setContentText("Error Saving! Will Quit Without Saving!");
+    			error.showAndWait();
+    			
+    			Platform.exit();
+    	    	System.exit(0);
+    			
+        	}
 
     }
 

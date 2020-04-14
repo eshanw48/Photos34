@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
+/**
+ * Class that represents tags, which can hold values.
+ * @author Eshan Wadhwa and Vishal Patel
+ *
+ */
 public class Tag implements Serializable{
 	
 	/**
@@ -25,7 +30,6 @@ public class Tag implements Serializable{
 	/**
 	 * Constructor to initialize a tag.
 	 * @param name String that represents the name of the tag.
-	 * @param value String that represents the first value associated with the tag.
 	 * @param multipleValues Boolean that represents if the tag can take multiple values or not.
 	 */
 	public Tag(String name, boolean multipleValues)
@@ -45,7 +49,7 @@ public class Tag implements Serializable{
 	
 	/**
 	 * Method to get iterator for the values associated with the tag.
-	 * @return
+	 * @return Returns the iterator that can iterate through the values of this tag.
 	 */
 	public Iterator<String> valueIterator(){
 		return this.values.iterator();
