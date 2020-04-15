@@ -1,11 +1,7 @@
 package PhotosView;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -25,8 +21,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -41,56 +35,123 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 public class PhotoDisplayController implements Initializable {
-
+	
+	/**
+	* Button to finalize caption
+	*/
+	
     @FXML
     private Button finalize;
+    
+    /**
+  	 * Textfield to enter caption
+  	 */
 
     @FXML
     private TextField caption;
+    
+    /**
+	* Button to restore caption to what it was before the edit
+	*/
 
     @FXML
     private Button restore;
+    
+    /**
+	* Button to exit the program
+	*/
 
     @FXML
     private Button exit;
+    
+    /**
+	* Button to logout of the program
+	*/
 
     @FXML
     private Button logout;
+    
+    /**
+	* ImageView to display the image
+	*/
 
     @FXML
     private ImageView images;
+    
+    /**
+	* Button to go back to the photoAlbum scene
+	*/
 
     @FXML
     private Button album;
+    
+    /**
+	* Button to go to the copy scene
+	*/
 
     @FXML
     private Button copy;
+    
+    /**
+	* Button to go to the move scene
+	*/
 
     @FXML
     private Button move;
+    
+    /**
+	* Textfield which is uneditable which displays the last date the image was modified
+	*/
 
     @FXML
     private TextField time;
+    
+    /**
+	* ListView which displays the tags the photo has
+	*/
 
     @FXML
     private ListView<Tag> tags;
+    
+    /**
+	* Button to add a tag to the photo
+	*/
 
     @FXML
     private Button add;
+    
+    /**
+	* Button to remove the value of a tag to the photo
+	*/
 
     @FXML
     private Button remove;
     
+    /**
+	* Button to remove a tag to the photo
+	*/
+    
     @FXML
     private Button removeTag;
+    
+    /**
+	* Button to add a value of a tag to the photo
+	*/
     
     @FXML
     private Button addValue;
     
+    /**
+	* ObeservableList of the tags
+	*/
+    
     private static ObservableList<Tag> tagList;
     
-    //this is already handled by the tag isMultiple value
-    //private static boolean location = true; //ensures user only tags 1 location per photo
+    /**
+     * Method to add a tag to the photo.
+     * @param event Event triggered by user pressing add button.
+     */
+    
 
     @FXML
     void addButton(ActionEvent event) {
@@ -120,70 +181,19 @@ public class PhotoDisplayController implements Initializable {
 				});
 			
 			stage.setScene(scene);
-		//	((Node)event.getSource()).getScene().getWindow().hide();
 			stage.show();	
 			
 			
 		} catch (IOException m) {
 			m.printStackTrace();
 		}
-    	/*
-    	User currentUser = Persistance.getUser(LoginController.getUserIndex());
-		Album opened = currentUser.getAlbum(UserController.getOpenAlbumIndex());
-		Photo photo = opened.getPhoto(PhotoAlbumController.getOpenPhotoIndex());
-		
-		tagList = FXCollections.observableArrayList(photo.getPhotoTags());
-		tags.setItems(tagList);
-		tags.refresh();
-    	*/
-    	/*
-    	Photo[] temp;
-		Photo photo;		
-			
-		User currentUser = Persistance.getUser(LoginController.getUserIndex());
-		
-		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
-		
-		List<Photo> photoList = new ArrayList<>();
-			
-		
-		while(photoIter.hasNext())
-		{
-			photoList.add(photoIter.next());
-		}
-		
-		temp = photoList.toArray(new Photo[0]);
-		
-		photo = temp[PhotoAlbumController.photoIndex];
-		
-		String tag = tagHelper("add");
-		
-		if (tag != null)
-		{
-			
-			String[] args = tag.split("~");
-			
-		//	if(photo.addTag(args[0], args[1], false))
-			{
-			//	photo.setPhotoTags(tagList);
-			//	tagList.add(tag); //ADD  TO LISTVIEW 
-				//tags.refresh();
-				
-				
-		//	} else {
-				Alert error = new Alert(AlertType.ERROR);
-				error.setTitle("Same Tag Error");
-				error.setContentText("Duplicate tag detected. Tag not added.");
-			}
-		//	photo.setPhotoTags(tagList);
-			tagList.add(photo.getTag(tag));
-			tags.setItems(tagList);
-			tags.refresh();
-		
-	*/	
-		
 		
     }
+    
+    /**
+     * Method to add a value of a tag to the photo.
+     * @param event Event triggered by user pressing addValue button.
+     */
 		
     
     @FXML
@@ -228,8 +238,11 @@ public class PhotoDisplayController implements Initializable {
 			
 		}
     }
-
     
+    /**
+     * Method to go back to the PhotoAlbum scene.
+     * @param event Event triggered by user pressing album button.
+     */
 
     @FXML
     void albumButton(ActionEvent event) {
@@ -251,6 +264,11 @@ public class PhotoDisplayController implements Initializable {
 		}
 
     }
+    
+    /**
+     * Method to go to the copy scene.
+     * @param event Event triggered by user pressing copy button.
+     */
 
     @FXML
     void copyButton(ActionEvent event) {
@@ -293,6 +311,11 @@ public class PhotoDisplayController implements Initializable {
     	
 
     }
+    
+    /**
+     * Method to exit the program.
+     * @param event Event triggered by user pressing exit button.
+     */
 
     @FXML
     void exitButton(ActionEvent event) throws IOException {
@@ -314,6 +337,11 @@ public class PhotoDisplayController implements Initializable {
         	}
 
     }
+    
+    /**
+     * Method to finalize a caption to the photo.
+     * @param event Event triggered by user pressing finalize button.
+     */
 
     @FXML
     void finalizeButton(ActionEvent event) {
@@ -335,28 +363,12 @@ public class PhotoDisplayController implements Initializable {
 			displayed.setCaption(caption.getText().trim());
 		}
 		
-		/*
-		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
-		
-		List<Photo> photoList = new ArrayList<>();
-		
-		while(photoIter.hasNext())
-		{
-			photoList.add(photoIter.next());
-		}
-		
-		temp = photoList.toArray(new Photo[0]);
-		
-		photo = temp[PhotoAlbumController.photoIndex];
-    	
-    	Photo toChange = photo;
-    	toChange.setCaption(caption.getText().trim());
-    	
-    	caption.setText(toChange.getCaption());
-    	
-    	tags.refresh();
-		*/
     }
+    
+    /**
+     * Method to logout of the program.
+     * @param event Event triggered by user pressing logout button.
+     */
 
     @FXML
     void logoutButton(ActionEvent event) {
@@ -378,6 +390,11 @@ public class PhotoDisplayController implements Initializable {
 		}
 
     }
+    
+    /**
+     * Method to go to the move scene.
+     * @param event Event triggered by user pressing move button.
+     */
 
     @FXML
     void moveButton(ActionEvent event) {
@@ -418,12 +435,15 @@ public class PhotoDisplayController implements Initializable {
     		e.printStackTrace();
     	}
     }
+    
+    /**
+     * Method to remove a value of a tag to the photo.
+     * @param event Event triggered by user pressing remove button.
+     */
 
     @FXML
     void removeButton(ActionEvent event) {
-    	
-    //	Photo[] temp;
-	//	Photo photo;		
+    		
 		
 		if (tagList.isEmpty()) {
 			//then no tag to remove values from
@@ -473,113 +493,41 @@ public class PhotoDisplayController implements Initializable {
 			
 		}
 			
-		/*
-		User currentUser = Persistance.getUser(LoginController.getUserIndex());
-		
-		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
-		
-		List<Photo> photoList = new ArrayList<>();
-		
-		Alert error = new Alert(AlertType.ERROR);
-			
-		
-		while(photoIter.hasNext())
-		{
-			photoList.add(photoIter.next());
 		}
-		
-		temp = photoList.toArray(new Photo[0]);
-		
-		photo = temp[PhotoAlbumController.photoIndex];
-		
-		String tag = tagHelper("delete");
-		
-		if (tag != null)
-		{
-			
-			
-			String[] args = tag.split("~");
-			
-			
-			
-
-		//	if(photo.removeTag(args[0], args[1]))
-		//	{
-				photo.removeTag(tag);
-				
-				
-					tags.refresh();
-		//	} else {
-				error.setTitle("Invalid Tag Error");
-				error.setContentText("Entered tag does not exist.");
-			}
-		
-			photo.removeTag(tag);
-			tags.refresh();
-		*/
-		}
+    
+    /**
+     * Method to restore the caption to a photo after it has been edited.
+     * @param event Event triggered by user pressing restore button.
+     */
 		
 
     @FXML
     void restoreButton(ActionEvent event) {
-    	
-    	//this is just to reset the caption in case the user wants to cancel their edit or makes changes by mistake
-    	
-
-    	//Photo[] temp;
-		//Photo photo;		
-			
-		
+    
 		
 		User currentUser = Persistance.getUser(LoginController.getUserIndex());
 		Album opened = currentUser.getAlbum(UserController.getOpenAlbumIndex());
 		Photo displayed = opened.getPhoto(PhotoAlbumController.getOpenPhotoIndex());
 		caption.setText(displayed.getCaption());
 		
-		/*
-		
-		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
-		
-		List<Photo> photoList = new ArrayList<>();
-		
-		while(photoIter.hasNext())
-		{
-			photoList.add(photoIter.next());
-		}
-		
-		temp = photoList.toArray(new Photo[0]);
-		
-		photo = temp[PhotoAlbumController.photoIndex];
-    	*/
-    	
 
     }
+    
+    /**
+     * Method that is automatically called when the user gets to this scene.
+     * @param event Event triggered by user pressing create button.
+     */
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		//Photo[] temp;
-		//Photo photo;		
+	public void initialize(URL arg0, ResourceBundle arg1) {	
 			
 		User currentUser = Persistance.getUser(LoginController.getUserIndex());
 		Album opened = currentUser.getAlbum(UserController.getOpenAlbumIndex());
 		Photo photo = opened.getPhoto(PhotoAlbumController.getOpenPhotoIndex());
-		/*
-		Iterator<Photo> photoIter = currentUser.getAlbum(UserController.getOpenAlbumIndex()).photoIterator();
 		
-		List<Photo> photoList = new ArrayList<>();
-		
-		while(photoIter.hasNext())
-		{
-			photoList.add(photoIter.next());
-		}
-		
-		temp = photoList.toArray(new Photo[0]);
-		
-		photo = temp[PhotoAlbumController.photoIndex];
-		*/
 		
 		tagList = FXCollections.observableArrayList(photo.getPhotoTags());
-	//	System.out.println(tagList.get(0));
+
 		tags.setItems(tagList);
 	
 		
@@ -631,6 +579,11 @@ public class PhotoDisplayController implements Initializable {
 		
 	}
 	
+	 /**
+     * Method to remove a tag to the photo.
+     * @param event Event triggered by user pressing removeTag button.
+     */
+	
 	@FXML
 	public void removeTag(ActionEvent event) {
 		if (tagList.isEmpty()) {
@@ -651,85 +604,6 @@ public class PhotoDisplayController implements Initializable {
 		tagList.remove(tags.getSelectionModel().getSelectedIndex());
 		tags.refresh();
 	}
-		
-	
-	
-	public static String tagHelper(String operation)
-	{
-		
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Tag Editing");
-		alert.setHeaderText("Tag Type");
-		
-		ButtonType personButton = new ButtonType("Person");
-		ButtonType locationButton = new ButtonType("Location");
-		ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-		
-		alert.getButtonTypes().setAll(personButton, locationButton, cancelButton);
-		
-		if (operation == "add")
-		{
-			alert.setContentText("Select the type of tag you want to add.");
-
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == personButton)
-			{
-			    return editDialog("person");
-			} else if (result.get() == locationButton) {
-				return editDialog("location");
-			} else {
-			    
-			}
-		} else if (operation == "delete") {
-			alert.setContentText("Select the type of tag you want to delete.");
-
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == personButton)
-			{
-				return editDialog("person");
-			} else if (result.get() == locationButton) {
-				return editDialog("location");
-			} else {
-			    
-			}
-		}
-		
-		return null;
-	
-}
-	
-	public static String editDialog(String keyword)
-	{
-		TextInputDialog addDialog = new TextInputDialog();
-		Optional<String> result;
-		Alert error = new Alert(AlertType.ERROR);
-		
-		if (keyword == "person" || keyword == "location")
-		{
-			addDialog.setTitle("Tag Editing");
-			addDialog.setHeaderText("Add a " + keyword + " Tag");
-			addDialog.setContentText("Enter Tag:");
-			
-			result = addDialog.showAndWait();
-			
-			if(result.isPresent())
-			{
-				if(result.get().isEmpty())
-				{
-					error.setTitle("Tag Input Error");
-					error.setContentText("No tag was entered. Please enter in a tag.");
-					
-					return null;
-				}
-				
-				return keyword + "~" + result.get().trim();
-			}
-		} 
-		
-		return null;
-		
-	}
-	
 
     
  }
