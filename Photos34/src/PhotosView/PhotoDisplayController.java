@@ -515,7 +515,6 @@ public class PhotoDisplayController implements Initializable {
     
     /**
      * Method that is automatically called when the user gets to this scene.
-     * @param event Event triggered by user pressing create button.
      */
 
 	@Override
