@@ -1,6 +1,5 @@
 package PhotosView;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -24,22 +23,57 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class SlideshowController implements Initializable {
+	
 
+	/**
+	 * ImageView to display the image
+	 */
+	
     @FXML
     private ImageView images;
+    
+
+	/**
+	 * Button to exit the program
+	 */
 
     @FXML
     private Button exit;
+    
+
+	/**
+	 * Button to view the previous image
+	 */
 
     @FXML
     private Button previous;
+    
+
+	/**
+	 * Button to view the next image
+	 */
 
     @FXML
     private Button next;
     
+
+	/**
+	 * Array of the photos to be displayed in the slideshow
+	 */
+    
     private static Photo[] slideshow;
     
+
+	/**
+	 * Integer that gets the index of the photo to display
+	 */
+    
     private static int currentPhoto = 0;
+    
+    /**
+     * Method to exit the program.
+     * @param event Event triggered by user pressing exit button.
+     */
 
     @FXML
     void exitButton(ActionEvent event) {
@@ -61,6 +95,11 @@ public class SlideshowController implements Initializable {
 		}
 
     }
+    
+    /**
+     * Method to display the next photo.
+     * @param event Event triggered by user pressing next button.
+     */
 
     @FXML
     void nextButton(ActionEvent event) {
@@ -81,6 +120,11 @@ public class SlideshowController implements Initializable {
 		
 
     }
+    
+    /**
+     * Method to display the previous photo.
+     * @param event Event triggered by user pressing previous button.
+     */
 
     @FXML
     void previousButton(ActionEvent event) {
@@ -103,6 +147,10 @@ public class SlideshowController implements Initializable {
 
 
     }
+    
+    /**
+     * Method that is automatically called when the user gets to this stage.
+     */
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -129,9 +177,6 @@ public class SlideshowController implements Initializable {
 		
 			Image display = new Image(photo.getLocation());
 			images.setImage(display);
-		
-		
-		
 
 	
 	}
