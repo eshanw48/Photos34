@@ -20,35 +20,69 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class PhotosMoveCopyController {
+	
+	/**
+	 * Label that changes dynamically based on what the user clicked (move or copy)
+	 */
 
 	@FXML
 	private Label welcome;
 	
+	/**
+	 * Button to exit the program
+	 */
+	
     @FXML
     private Button exit;
+    
+    /**
+	 * Button to logout of the program
+	 */
 
     @FXML
     private Button logout;
+    
+    /**
+	 * ListView of the albums
+	 */
 
     @FXML
     private ListView<Album> albums;
+    
+    /**
+	 * Button to go back to where the user came from
+	 */
 
     @FXML
     private Button back;
+    
+    /**
+	 * Button to confirm the move or copy
+	 */
 
     @FXML
     private Button confirm;
     
+    /**
+	 * OberservableList of albums
+	 */
+    
     private static ObservableList<Album> otherAlbumList;
     
+    /**
+	 * Boolean to keep track of where the user came from
+	 */
+    
     private static boolean albumOrDisplay;
+    
+    /**
+	 * Method that is automatically called when the user gets to this stage.
+	 */
     
     public void initialize() {
     	//we first want to initialize the label
@@ -103,6 +137,12 @@ public class PhotosMoveCopyController {
     	//setting first album to automatically be selected
     	albums.getSelectionModel().select(0);
     }
+    
+    /**
+     * Method to go back where the user came from.
+     * @param event Event triggered by user pressing back button.
+     */
+
 
     @FXML
     void backButton(ActionEvent event) {
@@ -143,6 +183,12 @@ public class PhotosMoveCopyController {
     		}
     	}
     }
+    
+    /**
+     * Method to confirm the changes.
+     * @param event Event triggered by user pressing confirm button.
+     */
+
 
     @FXML
     void confirmButton(ActionEvent event) {
@@ -202,6 +248,12 @@ public class PhotosMoveCopyController {
     		}
     	}
     }
+    
+    /**
+     * Method to exit the program.
+     * @param event Event triggered by user pressing exit button.
+     */
+
 
     @FXML
     void exitButton(ActionEvent event) throws IOException{
@@ -222,6 +274,12 @@ public class PhotosMoveCopyController {
         	}
 
     }
+    
+    /**
+     * Method to logout of the program.
+     * @param event Event triggered by user pressing logout button.
+     */
+
 
     @FXML
     void logoutButton(ActionEvent event) {
@@ -243,10 +301,21 @@ public class PhotosMoveCopyController {
 		}
 
     }
+    
+    /**
+     * Method to return boolean.
+     * @return boolean where the user came from.
+     */
+
 
 	public static boolean isAlbumOrDisplay() {
 		return albumOrDisplay;
 	}
+	
+	/**
+     * Method to set where the user came from.
+     * @param boolean other option.
+     */
 
 	public static void setAlbumOrDisplay(boolean other) {
 		albumOrDisplay = other;
