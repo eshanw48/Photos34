@@ -32,24 +32,51 @@ import javafx.stage.Stage;
  *
  */
 public class AdminController implements Initializable {
-
+	
+	/**
+	 * Button to delete the users
+	 */
     @FXML
     private Button delete;
+    
+    /**
+	 * Textfield to type in username
+	 */
 
     @FXML
     private TextField username;
+    
+    /**
+	 * Button to add the users
+	 */
 
     @FXML
     private Button add;
+    
+    /**
+	 * Button to exit the program
+	 */
 
     @FXML
     private Button exit;
+    
+    /**
+	 * Button to logout
+	 */
 
     @FXML
     private Button logout;
+    
+    /**
+	 * ListView displaying all the users
+	 */
 
     @FXML
     private ListView<User> users;
+    
+    /**
+	 * ObservableList of the users.
+	 */
     
     private ObservableList<User> usersList;
     
@@ -191,6 +218,11 @@ public class AdminController implements Initializable {
     	}
 
     }
+    
+    /**
+     * Method to logout of the application.
+     * @param event Event triggered by user pressing logout button.
+     */
 
     @FXML
     void logoutButton(ActionEvent event) {
@@ -212,6 +244,10 @@ public class AdminController implements Initializable {
 		}
 
     }
+    
+    /**
+     * Method that is automatically called at the start of this stage.
+     */
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
