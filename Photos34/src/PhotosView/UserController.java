@@ -1,24 +1,17 @@
 package PhotosView;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 import app.Album;
 import app.Persistance;
 import app.User;
 import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -29,8 +22,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.TreeTableColumn.CellDataFeatures;
+
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -39,53 +31,122 @@ import javafx.util.Callback;
 import java.time.LocalDateTime;
 
 public class UserController {
+	
+	/**
+	 * Button to create an album
+	 */
 
     @FXML
     private Button create;
     
+    /**
+	 * Label displaying the current user logged in
+	 */
+    
     @FXML
     private Label labelUser;
+    
+    /**
+	 * Textfield for the album name
+	 */
     
 
     @FXML
     private TextField AlbumName;
+    
+    /**
+	 * Button to exit the program
+	 */
 
     @FXML
     private Button exit;
+    
+    /**
+	 * Button to logout of the program
+	 */
 
     @FXML
     private Button logout;
+    
+    /**
+	 * Button to rename the album
+	 */
 
     @FXML
     private Button rename;
+    
+    /**
+	 * Button to delete the album
+	 */
 
     @FXML
     private Button delete;
+    
+    /**
+	 * Button to search for an album
+	 */
 
     @FXML
     private Button search;
+    
+    /**
+	 * TableView displaying all the albums for the user logged in
+	 */
 
     @FXML
     private TableView<Album> displayAlbums;
+    
+    /**
+	 * Button to open an album and see all its photos
+	 */
 
     @FXML
     private Button open;
     
+    /**
+	 * TableColumn that displays the names of the albums
+	 */
+    
     @FXML
     private TableColumn<Album, String> nameColumn;
+    
+    /**
+	 * TableColumn that displays the number of photos in the album
+	 */
 
     @FXML
     private TableColumn<Album, Integer> photoColumn;
+    
+    /**
+	 * TableColumn that displays the date of the earliest photo modification
+	 */
 
     @FXML
     private TableColumn<Album, LocalDateTime> earlyColumn;
+    
+    /**
+	 * TableColumn that displays the date of the latest photo modification
+	 */
 
     @FXML
     private TableColumn<Album, LocalDateTime> lateColumn;
     
+    /**
+	 * ObersvableList of the albums
+	 */
+    
     private static ObservableList<Album> albumList;
     
+    /**
+	 * Integer that gives the index of the current open album
+	 */
+    
     private static int openAlbumIndex = -1;
+    
+    /**
+     * Method to create an album.
+     * @param event Event triggered by user pressing create button.
+     */
 
     @FXML
     void createButton(ActionEvent event) {
@@ -134,6 +195,11 @@ public class UserController {
 		
 
     }
+    
+    /**
+     * Method to delete an album.
+     * @param event Event triggered by user pressing delete button.
+     */
 
     @FXML
     void deleteButton(ActionEvent event) {
@@ -184,6 +250,11 @@ public class UserController {
 		}
 
     }
+    
+    /**
+     * Method to exit the program.
+     * @param event Event triggered by user pressing exit button.
+     */
 
     @FXML
     void exitButton(ActionEvent event) throws IOException {
@@ -206,6 +277,11 @@ public class UserController {
 
 
     }
+    
+    /**
+     * Method to logout of the program.
+     * @param event Event triggered by user pressing logout button.
+     */
 
     @FXML
     void logoutButton(ActionEvent event) {
@@ -229,6 +305,11 @@ public class UserController {
 		}
 
     }
+    
+    /**
+     * Method to open an album.
+     * @param event Event triggered by user pressing open button.
+     */
 
     @FXML
     void openButton(ActionEvent event) {
@@ -257,6 +338,11 @@ public class UserController {
 		}
 
     }
+    
+    /**
+     * Method to rename an album.
+     * @param event Event triggered by user pressing rename button.
+     */
 
     @FXML
     void renameButton(ActionEvent event) {
@@ -310,6 +396,11 @@ public class UserController {
     	
 
     }
+    
+    /**
+     * Method to search for an album.
+     * @param event Event triggered by user pressing search button.
+     */
 
     @FXML
     void searchButton(ActionEvent event) {
@@ -331,13 +422,14 @@ public class UserController {
 		}
 
     }
+    
+    /**
+     * Method that is automatically called when the user gets to this stage.
+     */
 
 
 	public void initialize() {
 		
-		
-		
-
 		
 		User currUser = Persistance.getUser(LoginController.getUserIndex());  // holds the current user
 		
@@ -347,15 +439,6 @@ public class UserController {
 		
 		labelUser.setText("Welcome " + currUser + " !");
 		
-		/*
-		Iterator<Album> albumInter = currUser.albumIterator();
-		
-		while(albumInter.hasNext()) {  // Load all albums from current user
-			
-			albumList.add(albumInter.next());
-						
-		}			
-		*/
 				
 		displayAlbums.setItems(albumList);
 		
