@@ -1,20 +1,16 @@
 package PhotosView;
 
-import java.io.IOException;
 
 import app.Album;
 import app.Persistance;
 import app.Photo;
 import app.Tag;
 import app.User;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
@@ -22,33 +18,63 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 
 //this is a helper for dialogues for showing available tags
 public class tagViewController {
+	
+	/**
+	 * Button to add tag
+	 */
 
 	@FXML
 	private Button addTag;
 	
+	/**
+	 * Button to remove tag
+	 */
+	
 	@FXML
 	private Button removeTag;
+	
+	/**
+	 * ListView displaying tag values
+	 */
 	
 	@FXML
 	private ListView<Tag> tagValues;
 	
+	/**
+	 * RadioButton to determine if a tag can have multiple values
+	 */
+	
 	@FXML
 	private RadioButton multipleValuesRadio;
+	
+	/**
+	 * Button to add tag to photo
+	 */
 	
 	@FXML
 	private Button addToPhoto;
 	
+	/**
+	 * Textfield to enter value of tag
+	 */
+	
 	@FXML
 	private TextField valueField;
 	
+	/**
+	 * ObersvableList of the user tags
+	 */
+	
 	private static ObservableList<Tag> usersTags;
+	
+    /**
+     * Method that is automatically called when the user gets to this stage.
+     */
 	
 	public void initialize() {
 		//currUser
@@ -105,6 +131,11 @@ public class tagViewController {
 		}
 	}
 	
+    /**
+     * Method to add a tag.
+     * @param event Event triggered by user pressing addTag button.
+     */
+	
 	@FXML
 	void addTag(ActionEvent event) {
 		//adds a tag to users possible list of tags
@@ -133,6 +164,11 @@ public class tagViewController {
 		
 	}
 	
+    /**
+     * Method to remove a tag.
+     * @param event Event triggered by user pressing removeTag button.
+     */
+	
 	@FXML
 	void removeTag(ActionEvent event) {
 		if (usersTags.isEmpty()) {
@@ -149,6 +185,11 @@ public class tagViewController {
 			tagValues.refresh();
 		}
 	}
+	
+    /**
+     * Method to add tag to a photo.
+     * @param event Event triggered by user pressing addToPhoto button.
+     */
 	
 	@FXML
 	void addTagToPhoto(ActionEvent event) {
