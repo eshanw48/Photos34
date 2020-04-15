@@ -18,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -26,8 +25,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 //import for file browser users need to pick their images for albums.
@@ -39,58 +36,141 @@ import java.io.File;
 
 
 public class PhotoAlbumController {
+	
+	/**
+	* Button to finalize the caption to the photo
+	*/
+    
 
     @FXML
     private Button finalize;
+    
+    /**
+	* Textfield to type caption
+	*/
+    
 
     @FXML
     private TextField caption;
+    
+    /**
+	* Button to restore caption to what it was before the edit
+	*/
+    
 
     @FXML
     private Button restore;
+    
+    /**
+	* Button to exit the program
+	*/
+    
 
     @FXML
     private Button exit;
+    
+    /**
+	* Button to logout of the program
+	*/
+    
 
     @FXML
     private Button logout;
+    
+    /**
+	* ListView to display photos
+	*/
+    
 
     @FXML
     private ListView<Photo> photos;
+    
+    /**
+	* Button to go to the move scene
+	*/
+    
 
     @FXML
     private Button move;
+    
+    /**
+	* Button to go to the copy scene
+	*/
+    
 
     @FXML
     private Button copy;
+    
+    /**
+	* Button to select a specific photo and display it 
+	*/
+    
 
     @FXML
     private Button display;
+    
+    /**
+	* Button to remove photo from album
+	*/
+    
 
     @FXML
     private Button remove;
+    
+    /**
+	* Button to add photo to album
+	*/
+    
 
     @FXML
     private Button add;
+    
+    /**
+	* Button to view a slideshow of the pictures
+	*/
+    
 
     @FXML
     private Button view;
     
+    /**
+	* Label to show album open
+	*/
+    
+    
     @FXML
     private Label albumName;
+    
+    /**
+	* Button to go back to the list of albums
+	*/
+    
     
     @FXML
     private Button back;
     
+    /**
+	* ObservableList of the photos
+	*/
     
-    //observeable list to monitor changes in our photo list for the album
+    
     private static ObservableList<Photo> photoList;
     
-  //index of the photo that is chosen for displaying
+    /**
+	* Integer that shows the index of the photo that is chosen for displaying
+	*/
+    
     public static int photoIndex;
-
-    //boolean that is true for initiated copy and false for initiated move
+    
+    /**
+   	* Boolean that is true for initiated copy and false for initiated move
+   	*/
+    
     public static boolean copyOrMove;
+    
+    /**
+     * Method that is automatically called when the user gets to this scene.
+     */
     
     
     public void initialize() {
@@ -149,6 +229,11 @@ public class PhotoAlbumController {
     	//we want to just initialize the listview and the name of the album
     	albumName.setText("Album: "+opened.getAlbumName());
     }
+    
+    /**
+     * Method that adds a photo to the album.
+     * @param event Event triggered by user pressing add button.
+     */
 
     @FXML
     void addButton(ActionEvent event) {
@@ -202,6 +287,11 @@ public class PhotoAlbumController {
     	}
     	
     }
+    
+    /**
+     * Method that goes to the copy scene.
+     * @param event Event triggered by user pressing copy button.
+     */
 
     @FXML
     void copyButton(ActionEvent event) {
@@ -241,6 +331,11 @@ public class PhotoAlbumController {
 			m.printStackTrace();
 		}
     }
+    
+    /**
+     * Method that displays the selected photo.
+     * @param event Event triggered by user pressing display button.
+     */
 
     @FXML
     void displayButton(ActionEvent event) {
@@ -267,10 +362,6 @@ public class PhotoAlbumController {
 		//GridPane rootLayout = (GridPane) loader.load();
 		
 		Scene scene = new Scene(rootLayout);
-		/*
-		rootLayout.prefHeightProperty().bind(scene.heightProperty());
-		rootLayout.prefWidthProperty().bind(scene.widthProperty());
-		*/
 		stage.setScene(scene);
 		((Node)event.getSource()).getScene().getWindow().hide();
 		stage.show();	
@@ -280,6 +371,11 @@ public class PhotoAlbumController {
 	}
 
     }
+    
+    /**
+     * Method that exits the program.
+     * @param event Event triggered by user pressing exit button.
+     */
 
     @FXML
     void exitButton(ActionEvent event) throws IOException {
@@ -301,6 +397,11 @@ public class PhotoAlbumController {
         	}
 
     }
+    
+    /**
+     * Method that finalizes the caption the user typed.
+     * @param event Event triggered by user pressing finalize button.
+     */
 
     @FXML
     void finalizeButton(ActionEvent event) {
@@ -317,6 +418,11 @@ public class PhotoAlbumController {
     	toChange.setCaption(caption.getText().trim());
     	photos.refresh();
     }
+    
+    /**
+     * Method to logout of the program
+     * @param event Event triggered by user pressing logout button.
+     */
 
     @FXML
     void logoutButton(ActionEvent event) {
@@ -338,6 +444,11 @@ public class PhotoAlbumController {
 		}
 
     }
+    
+    /**
+     * Method to go to the move scene.
+     * @param event Event triggered by user pressing move button.
+     */
 
     @FXML
     void moveButton(ActionEvent event) {
@@ -386,6 +497,11 @@ public class PhotoAlbumController {
 			m.printStackTrace();
 		}
     }
+    
+    /**
+     * Method to remove a photo from an album.
+     * @param event Event triggered by user pressing remove button.
+     */
 
     @FXML
     void removeButton(ActionEvent event) {
@@ -424,6 +540,11 @@ public class PhotoAlbumController {
     	}
     	
     }
+    
+    /**
+     * Method to restore the caption to what it was before the user made the edit.
+     * @param event Event triggered by user pressing restore button.
+     */
 
     @FXML
     void restoreButton(ActionEvent event) {
@@ -433,6 +554,11 @@ public class PhotoAlbumController {
     	}
     	caption.setText(photos.getSelectionModel().getSelectedItem().getCaption());
     }
+    
+    /**
+     * Method to go to the slideshow.
+     * @param event Event triggered by user pressing view button.
+     */
 
     @FXML
     void viewButton(ActionEvent event) {
@@ -471,6 +597,11 @@ public class PhotoAlbumController {
     	
     }
     
+    /**
+     * Method to go back to the albums.
+     * @param event Event triggered by user pressing back button.
+     */
+    
     @FXML
     public void backButton(ActionEvent event) {
     	//just go back to the user page
@@ -492,6 +623,10 @@ public class PhotoAlbumController {
 		}
     }
     
+    /**
+     * Method to show the photo.
+     */
+    
     private void showPhoto() {
     	if (photoList.isEmpty()) {
     		caption.setText("");
@@ -503,9 +638,19 @@ public class PhotoAlbumController {
     	}
     }
     
+    /**
+     * Method to get the open photo index.
+     * @return integer photo index.
+     */
+    
     public static int getOpenPhotoIndex() {
     	return photoIndex;
     }
+    
+    /**
+     * Method to figure out if user wants to copy or move photo.
+     * @return boolean copyOrMove
+     */
     
     public static boolean getCopyOrMove() {
     	return copyOrMove;
