@@ -19,20 +19,46 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class LoginController {
+	
+	/**
+	 * Button to login
+	 */
 
     @FXML
     private Button submit;
+    
+    /**
+	 * Textfield to enter username
+	 */
 
     @FXML
     private TextField username;
+    
+    /**
+	 * Button to clear text in textfield
+	 */
 
     @FXML
     private Button clear;
+    
+    /**
+	 * Button exit the program
+	 */
 
     @FXML
     private Button exit;
     
+    /**
+	 * Integer giving the index of the current user that is active
+	 */
+    
     private static int userIndex;
+    
+    
+    /**
+     * Method to clear the username textfield.
+     * @param event Event triggered by user pressing clear button.
+     */
 
     @FXML
     void clearButton(ActionEvent event) {
@@ -40,6 +66,12 @@ public class LoginController {
     	username.setText("");
 
     }
+    
+    
+    /**
+     * Method to exit the program.
+     * @param event Event triggered by user pressing exit button.
+     */
 
     @FXML
     void exitButton(ActionEvent event) throws IOException {
@@ -62,6 +94,12 @@ public class LoginController {
 
 
     }
+    
+    
+    /**
+     * Method to submit the username textfield and go to the next stage.
+     * @param event Event triggered by user pressing submit button.
+     */
 
     @FXML
     void submitButton(ActionEvent event) {
@@ -130,29 +168,15 @@ public class LoginController {
 		error.show();
 		
 		username.clear();
-		
-		
-		
-		/*
-		try {
-			Stage stage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("/PhotosView/User.fxml"));
-			AnchorPane rootLayout = (AnchorPane) loader.load();
-			
-			Scene scene = new Scene(rootLayout);
-			
-			stage.setScene(scene);
-			((Node)event.getSource()).getScene().getWindow().hide();
-			stage.show();	
-			
-		} catch (IOException m) {
-			m.printStackTrace();
-		}
-		*/
+	
     }
+    
+    
+    /**
+     * Method to get the index of the current user active.
+     */
    
-public static int getUserIndex() {
+    public static int getUserIndex() {
 		
 		return userIndex;
 	}
