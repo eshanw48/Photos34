@@ -2,10 +2,8 @@ package PhotosView;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.List;
 
 import app.Album;
@@ -22,7 +20,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
@@ -37,59 +34,146 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class PhotoSearchController {
+	
+	/**
+	* Button to exit the program
+	*/
 
     @FXML
     private Button exit;
+    
+    /**
+	* Button to logout of the program
+	*/
 
     @FXML
     private Button logout;
+    
+    /**
+	* Button to go back to the albums
+	*/
 
     @FXML
     private Button backAlbums;
+    
+    /**
+	* RadioButton to select date range
+	*/
 
     @FXML
     private RadioButton dateRange;
+    
+    /**
+	* Textfield to enter start date
+	*/
 
     @FXML
     private TextField StartDate;
+    
+    /**
+	* Textfield to enter end date
+	*/
 
     @FXML
     private TextField EndDate;
+    
+    /**
+   	* RadioButton to select tag and value
+   	*/
 
     @FXML
     private RadioButton tagAndValue;
+    
+    /**
+   	* Textfield to enter tag1
+   	*/
+
 
     @FXML
     private TextField Tag1;
+    
+    /**
+   	* Textfield to enter value 1
+   	*/
+
 
     @FXML
     private TextField Value1;
+    
+    /**
+   	* ToggleButton for and option
+   	*/
+
 
     @FXML
     private ToggleButton and;
     
+    /**
+   	* Textfield to enter tag2
+   	*/
+
+    
     @FXML
     private TextField Tag2;
+    
+    /**
+   	* Textfield to enter value2
+   	*/
+
 
     @FXML
     private TextField Value2;
+    
+    /**
+   	* Button to search
+   	*/
+
 
     @FXML
     private Button search;
+    
+    /**
+   	* ListView of the search results
+   	*/
+
 
     @FXML
     private ListView<Photo> searchResults;
+    
+    /**
+   	* Textfield to enter album name
+   	*/
+
 
     @FXML
     private TextField AlbumName;
+    
+    /**
+   	* Button to create album
+   	*/
+
 
     @FXML
     private Button createAlbum;
+    
+    /**
+   	* ToggleButton for or option
+   	*/
+
 
     @FXML
     private ToggleButton or;
     
+    /**
+   	* ObservableList of the results
+   	*/
+
+    
     private static ObservableList<Photo> results;
+    
+    /**
+     * Method that is automatically called when the user gets to this stage.
+     */
 
     public void initialize() {
     	//we have to initialize the radio buttons to be in the same group
@@ -135,6 +219,11 @@ public class PhotoSearchController {
     	});
     }
     
+    /**
+     * Method to go back to the albums scene.
+     * @param event Event triggered by user pressing backAlbums button.
+     */
+    
 
     @FXML
     void backAlbumsButton(ActionEvent event) {
@@ -157,6 +246,11 @@ public class PhotoSearchController {
 			m.printStackTrace();
 		}
     }
+    
+    /**
+     * Method create an album based on the results.
+     * @param event Event triggered by user pressing createAlbum button.
+     */
 
     @FXML
     void createAlbumButton(ActionEvent event) {
@@ -215,6 +309,11 @@ public class PhotoSearchController {
 			return;
     	}
     }
+    
+    /**
+     * Method to exit the program.
+     * @param event Event triggered by user pressing exit button.
+     */
 
    
 
@@ -237,6 +336,11 @@ public class PhotoSearchController {
         	}
 
     }
+    
+    /**
+     * Method to logout of the program.
+     * @param event Event triggered by user pressing logout button.
+     */
 
     @FXML
     void logoutButton(ActionEvent event) {
@@ -258,6 +362,11 @@ public class PhotoSearchController {
 		}
 
     }
+    
+    /**
+     * Method to search for the photos.
+     * @param event Event triggered by user pressing search button.
+     */
 
   
     @FXML
