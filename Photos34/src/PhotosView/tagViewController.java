@@ -20,8 +20,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 
+/**
+ * UI controller which helps with tags; gives a dialogue showing available tags.
+ * @author Eshan Wadhwa and Vishal Patel.
+ *
+ */
 
-//this is a helper for dialogues for showing available tags
+
 public class tagViewController {
 	
 	/**
