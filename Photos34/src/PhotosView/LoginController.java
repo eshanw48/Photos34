@@ -80,7 +80,7 @@ public class LoginController {
      */
 
     @FXML
-    void exitButton(ActionEvent event) throws IOException {
+    void exitButton(ActionEvent event) {
     	
     	try {
         	Persistance.writeUser();

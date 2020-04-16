@@ -262,7 +262,7 @@ public class PhotosMoveCopyController {
 
 
     @FXML
-    void exitButton(ActionEvent event) throws IOException{
+    void exitButton(ActionEvent event) {
     	try {
         	Persistance.writeUser();
         	
@@ -318,11 +318,11 @@ public class PhotosMoveCopyController {
 		return albumOrDisplay;
 	}
 	
+	
 	/**
-     * Method to set where the user came from.
-     * @param boolean other option.
-     */
-
+	 * Method to set where the user came from.
+	 * @param other Other is true if they came from Album Scene, but false if they came from display screen.
+	 */
 	public static void setAlbumOrDisplay(boolean other) {
 		albumOrDisplay = other;
 	}
