@@ -18,6 +18,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * UI controller which manages start screen (login screen) for our photos app.
+ * @author Eshan Wadhwa and Vishal Patel.
+ *
+ */
+
 public class LoginController {
 	
 	/**
@@ -174,6 +180,7 @@ public class LoginController {
     
     /**
      * Method to get the index of the current user active.
+     * @return integer of the index of the current user logged in.
      */
    
     public static int getUserIndex() {
