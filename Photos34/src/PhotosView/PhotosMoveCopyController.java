@@ -24,6 +24,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * UI controller which manages the move photo or copy photo to another album buttons.
+ * @author Eshan Wadhwa and Vishal Patel.
+ *
+ */
+
 public class PhotosMoveCopyController {
 	
 	/**
