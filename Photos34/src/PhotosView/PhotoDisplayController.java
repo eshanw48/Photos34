@@ -279,14 +279,7 @@ public class PhotoDisplayController implements Initializable {
 
     @FXML
     void copyButton(ActionEvent event) {
-    	if (Persistance.getUser(LoginController.getUserIndex()).toString().equals("stock")){
-    		//we cant change the stock albums
-    		Alert error = new Alert(AlertType.ERROR);
-			error.setTitle("Stock Error");
-			error.setContentText("Use copy for Stock instead of move!");
-			error.show();
-			return;
-    	}
+    	
     	//initiates screen to move photo to a different album
     	if (Persistance.getUser(LoginController.getUserIndex()).getAlbums().size()==1) {
     		//then we cant move this to another album
