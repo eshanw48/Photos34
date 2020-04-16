@@ -33,6 +33,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * UI controller in which the user can search for a photo based on filters.
+ * @author Eshan Wadhwa and Vishal Patel.
+ *
+ */
+
 public class PhotoSearchController {
 	
 	/**
