@@ -22,6 +22,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * UI controller which manages the slideshow function of our photos app.
+ * @author Eshan Wadhwa and Vishal Patel.
+ *
+ */
+
 public class SlideshowController implements Initializable {
 	
 
