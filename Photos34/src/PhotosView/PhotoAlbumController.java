@@ -1,15 +1,3 @@
-package PhotosView;
-
-import java.io.IOException;
-
-
-import app.Album;
-import app.Persistance;
-import app.Photo;
-import app.User;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +20,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 import java.io.File;
+
+/**
+ * UI controller which the user sees once they open an album. Here they can interact with the photos.
+ * @author Eshan Wadhwa and Vishal Patel.
+ *
+ */
 
 
 
