@@ -281,6 +281,8 @@ public class PhotoAlbumController {
     			//then add is successful so we should also add to the observable list
     			photoList.add(toAdd);
     			photos.refresh();
+    			
+    			photos.getSelectionModel().select(photoList.size()-1);
     		} else {
     			//then we already have this image in the album
     			Alert error = new Alert(AlertType.ERROR);
