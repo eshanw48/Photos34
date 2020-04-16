@@ -30,6 +30,12 @@ import javafx.util.Callback;
 
 import java.time.LocalDateTime;
 
+/**
+ * UI controller which manages screen for when the user is logged into our photos app. User sees all the albums they have.
+ * @author Eshan Wadhwa and Vishal Patel.
+ *
+ */
+
 public class UserController {
 	
 	/**
@@ -526,10 +532,19 @@ public class UserController {
 
 }
 	
+	/**
+     * Method to get the open album index.
+     * @return integer open album index.
+     */
+	
 	public static int getOpenAlbumIndex() {
 		
 		return openAlbumIndex;
 	}
+	
+	/**
+     * Method to show album into the TableView.
+     */
 	
 	private void showAlbum() {
 		if (albumList.isEmpty()) {
