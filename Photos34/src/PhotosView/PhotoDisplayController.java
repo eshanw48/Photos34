@@ -1,21 +1,3 @@
-package PhotosView;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import app.Album;
-import app.Persistance;
-import app.Photo;
-import app.Tag;
-import app.User;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -33,6 +15,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+
+/**
+ * UI controller in which the user selects a photo from one of their albums, and they can view the photo and change the photo details, such as tags and captions. 
+ * @author Eshan Wadhwa and Vishal Patel.
+ *
+ */
 
 public class PhotoDisplayController implements Initializable {
 	
